@@ -7,5 +7,6 @@ include_directories(core)
 
 add_subdirectory(core)
 add_subdirectory(test)
+add_subdirectory(arduino)
 
 target_link_libraries(sk8bmsCore)
