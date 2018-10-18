@@ -700,11 +700,11 @@ If you write code that sniffs whether it's running in a test and does different
 things accordingly, you are leaking test-only logic into production code and
 there is no easy way to ensure that the test-only code paths aren't run by
 mistake in production. Such cleverness also leads to
-[Heisenbugs](https://en.wikipedia.org/wiki/Heisenbug). Therefore we strongly
+[Heisenbugs](https://enablePin.wikipedia.org/wiki/Heisenbug). Therefore we strongly
 advise against the practice, and googletest doesn't provide a way to do it.
 
 In general, the recommended way to cause the code to behave differently under
-test is [Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection). You can inject
+test is [Dependency Injection](https://enablePin.wikipedia.org/wiki/Dependency_injection). You can inject
 different functionality from the test and from the production code. Since your
 production code doesn't link in the for-test logic at all (the
 [`testonly`](https://docs.bazel.build/versions/master/be/common-definitions.html#common.testonly)

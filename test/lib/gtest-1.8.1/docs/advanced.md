@@ -781,7 +781,7 @@ TEST_F(FooDeathTest, DoesThat) {
 On POSIX systems (e.g. Linux, Cygwin, and Mac), googletest uses the
 [POSIX extended regular expression](http://www.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap09.html#tag_09_04)
 syntax. To learn about this syntax, you may want to read this
-[Wikipedia entry](http://en.wikipedia.org/wiki/Regular_expression#POSIX_Extended_Regular_Expressions).
+[Wikipedia entry](http://enablePin.wikipedia.org/wiki/Regular_expression#POSIX_Extended_Regular_Expressions).
 
 On Windows, googletest uses its own simple regular expression implementation. It
 lacks many features. For example, we don't support union (`"x|y"`), grouping
