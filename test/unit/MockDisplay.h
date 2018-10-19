@@ -13,7 +13,7 @@ public:
         splashed = true;
     }
 
-    void setCellVoltage(int i, float voltage) override {
+    void setCellVoltage(uint8_t i, float voltage) override {
         voltages[i] = voltage;
     }
 

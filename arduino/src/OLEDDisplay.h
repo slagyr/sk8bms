@@ -11,11 +11,17 @@ public:
 
     void splash() override;
 
-    void setCellVoltage(uint8_t i, float voltage) override;
+    void setCellVoltage(uint8_t cell, float voltage) override;
 
     void updateCell(uint8_t cell) override;
 
     void showHome() override;
+
+private:
+
+    void showLabeledBars() const;
+
+    void updateBar(uint8_t cell, int percentage) const;
 };
 
 

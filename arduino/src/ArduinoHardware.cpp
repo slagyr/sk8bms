@@ -23,14 +23,6 @@ unsigned long ArduinoHardware::getMillis() {
     return millis();
 }
 
-void ArduinoHardware::print(const char *value) {
-    Serial.print(value);
-}
-
-void ArduinoHardware::print(int value) {
-    Serial.print(value);
-}
-
 void ArduinoHardware::setPinHigh(uint8_t pin) {
     digitalWrite(pin, HIGH);
 }
@@ -45,5 +37,18 @@ void ArduinoHardware::playNote(uint8_t pin, unsigned int frequency, unsigned lon
 
 void ArduinoHardware::sleep(unsigned long duration) {
     delay(duration);
+}
+
+void ArduinoHardware::print(const char *value) {
+    Serial.print(value);
+}
+
+void ArduinoHardware::print(int value) {
+    Serial.print(value);
+}
+
+void ArduinoHardware::print(float value) {
+    Serial.print(value);
+
 }
 

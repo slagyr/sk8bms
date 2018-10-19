@@ -1,7 +1,7 @@
 #ifndef HARDWARE_H
 #define HARDWARE_H
 
-typedef unsigned char uint8_t;
+#include "common.h"
 
 class Hardware {
 
@@ -13,15 +13,17 @@ public:
     virtual unsigned long getMillis() = 0;
     virtual void setPinHigh(uint8_t pin) = 0;
     virtual void setPinLow(uint8_t pin) = 0;
-    virtual void print(const char *value) = 0;
-    virtual void print(int value) = 0;
     virtual void playNote(uint8_t pin, unsigned int frequency, unsigned long duration) = 0;
 
     virtual void sleep(unsigned long duration) = 0;
 
-    void printValue(char* label, int value);
+    virtual void print(const char *value) = 0;
+    virtual void print(int value) = 0;
+    virtual void print(float value) = 0;
     void println(const char *value);
     void println(int value);
+    void println(float value);
+    void printValue(char* label, int value);
 };
 
 

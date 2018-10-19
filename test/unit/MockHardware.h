@@ -72,6 +72,8 @@ public:
 
     void print(int value) override { cout << value; }
 
+    void print(float value) override { cout << value; }
+
     void setPinHigh(uint8_t pin) override { digitalWrites[pin] = "HIGH"; }
 
     void setPinLow(uint8_t pin) override { digitalWrites[pin] = "LOW"; }

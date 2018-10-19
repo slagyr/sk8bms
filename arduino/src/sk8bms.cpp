@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "common.h"
 #include <Controller.h>
 #include "OLEDDisplay.h"
 #include "ArduinoHardware.h"
@@ -16,18 +17,6 @@ void rotaryRotated() { rotary->handleRotation(); }
 
 void rotaryClicked() { rotary->handleClick(); }
 
-int availableMemory() {
-    int size = 2048; // Use 2048 with ATmega328
-    byte *buf;
-
-    while ((buf = (byte *) malloc(--size)) == NULL)
-        ;
-
-    free(buf);
-
-    return size;
-}
-
 void setup()
 {
     Serial.begin(9600);
@@ -37,12 +26,16 @@ void setup()
 
     display = new OLEDDisplay();
     hardware = new ArduinoHardware();
-    rotary = new Rotary(hardware, 1, 4, 0);
-    mux = new Mux(hardware, 8, 9, 10, 11, 12);
-    sensor = new VoltageSensor(hardware, A5);
+    rotary = new Rotary(hardware, 2, 4, 3);
+    mux = new Mux(hardware, 5, 6, 7, 8, 9);
+    sensor = new VoltageSensor(hardware, A3);
     controller = new Controller(hardware, display, rotary, mux, sensor);
 
+    Serial.println("objects created");
+
     controller->setup();
+
+    Serial.println("setup complete");
 
     analogReference(EXTERNAL);
 
@@ -56,8 +49,5 @@ void setup()
 
 void loop()
 {
-    Serial.println("loop start");
     controller->tick(millis());
 }
-
-uint8_t x;

@@ -1,7 +1,7 @@
 #ifndef SK8BMS_DISPLAY_H
 #define SK8BMS_DISPLAY_H
 
-typedef unsigned char uint8_t;
+#include "common.h"
 
 class Display {
 

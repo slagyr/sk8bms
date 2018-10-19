@@ -25,6 +25,8 @@ public:
 
     void print(int value) override;
 
+    void print(float value) override;
+
     void playNote(uint8_t pin, unsigned int frequency, unsigned long duration) override;
 
     void sleep(unsigned long duration) override;

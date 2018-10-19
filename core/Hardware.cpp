@@ -16,4 +16,9 @@ void Hardware::println(int value) {
     print("\n");
 }
 
+void Hardware::println(float value) {
+    print(value);
+    print("\n");
+}
+
 
