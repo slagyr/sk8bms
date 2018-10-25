@@ -1,11 +1,11 @@
-#include "OLEDDisplay.h"
 #include <avr/pgmspace.h>
 #include <Wire.h>
-#include "I2cOledComm.h"
-#include "Canvas.h"
+#include <GFX/Canvas.h>
 #include <oled/Oled.h>
 #include <oled/OledFonts.h>
 #include "splash.h"
+#include "OLEDDisplay.h"
+#include "I2cOledComm.h"
 
 #define BAR_TOP_ROW 2
 #define BAR_ROWS 5
@@ -28,23 +28,20 @@ void OLEDDisplay::splash() {
     oled->drawBitmap(0, 0, 128, 64, splashBMP);
 }
 
-void OLEDDisplay::setCellVoltage(uint8_t cell, float voltage) {
+void OLEDDisplay::showCellVoltage(uint8_t cell, float voltage) {
     auto percentage = (int)((voltage - 2.5) / 1.7 * 100);
 
-    Serial.print("cell:\t");
-    Serial.print(cell);
-    Serial.print("\tvoltage:\t");
-    Serial.print(voltage);
-    Serial.print("\tpercentage:\t");
-    Serial.println(percentage);
+//    Serial.print("cell:\t");
+//    Serial.print(cell);
+//    Serial.print("\tvoltage:\t");
+//    Serial.print(voltage);
+//    Serial.print("\tpercentage:\t");
+//    Serial.println(percentage);
 
     percentage = percentage > 99 ? 99 : percentage;
     percentage = percentage < 0 ? 0 : percentage;
 
     updateBar(cell, percentage);
-}
-
-void OLEDDisplay::updateCell(uint8_t cell) {
 }
 
 void OLEDDisplay::showHome() {
@@ -69,9 +66,9 @@ void OLEDDisplay::updateBar(uint8_t cell, int percentage) const {
                          voltageBar->height() - BAR_Y_BOT_PAD,
                          WHITE);
     uint8_t h = (voltageBar->height() - BAR_Y_BOT_PAD) * percentage / 100.0;
-    voltageBar->fillRect(BAR_X_PAD + 1,
+    voltageBar->fillRect(BAR_X_PAD + 2,
                          voltageBar->height() - h,
-                         voltageBar->width() - 1 - BAR_X_PAD,
+                         voltageBar->width() - 4 - BAR_X_PAD,
                          h - BAR_Y_BOT_PAD - 1,
                          WHITE);
     oled->drawCanvas(x, BAR_TOP_ROW,

@@ -6,8 +6,11 @@
 typedef unsigned char uint8_t;
 
 #ifndef PROGMEM
-#warning "PROGMEM undefined"
-#define PROGMEM
+//#warning "PROGMEM undefined"
+//#define PROGMEM
+//#include <avr/pgmspace.h>
+#define __ATTR_PROGMEM__ __attribute__((__progmem__))
+#define PROGMEM __ATTR_PROGMEM__
 #endif
 
 inline int availableMemory() {
@@ -22,4 +25,4 @@ inline int availableMemory() {
     return size;
 }
 
-#endif //SK8BMS_COMMON_H
+#endif

@@ -3,7 +3,7 @@
 
 #include <Display.h>
 #include <oled/Oled.h>
-#include "Canvas.h"
+#include "GFX/Canvas.h"
 
 class OLEDDisplay : public Display {
 public:
@@ -13,9 +13,7 @@ public:
 
     void splash() override;
 
-    void setCellVoltage(uint8_t cell, float voltage) override;
-
-    void updateCell(uint8_t cell) override;
+    void showCellVoltage(uint8_t cell, float voltage) override;
 
     void showHome() override;
 

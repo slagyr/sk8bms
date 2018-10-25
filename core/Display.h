@@ -10,11 +10,10 @@ public:
 
     virtual void splash() = 0;
 
-    virtual void setCellVoltage(uint8_t i, float voltage) = 0;
+    virtual void showCellVoltage(uint8_t i, float voltage) = 0;
 
     virtual void showHome() = 0;
 
-    virtual void updateCell(uint8_t cell) = 0;
 };
 
 

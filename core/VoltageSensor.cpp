@@ -24,7 +24,7 @@ float VoltageSensor::readVoltage() {
     for(int i = 0; i < SAMPLES; i++) {
         sum += hardware->readAnalogPin(pin);
         if( i < SAMPLES - 1)
-            hardware->sleep(100);
+            hardware->sleep(1);
     }
 //    float voltage = float(sum) / SAMPLES * AnalogToVoltMultiplier;
     float voltage = float(sum) / SAMPLES / 1024 * 5.0;

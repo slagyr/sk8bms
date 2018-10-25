@@ -23,7 +23,7 @@ protected:
 
 TEST_F(HomeScreenTest, Hardcoding) {
     EXPECT_EQ("Home", screen->getName());
-    EXPECT_EQ(60000, screen->getIdleTimeout());
+    EXPECT_EQ(3600000, screen->getIdleTimeout());
 }
 
 TEST_F(HomeScreenTest, Enter) {
@@ -60,7 +60,6 @@ TEST_F(HomeScreenTest, Update) {
     screen->update();
 
     EXPECT_NEAR(3.0, display->voltages[6], 0.01);
-    EXPECT_EQ(6, display->updatedCell);
 }
 
 

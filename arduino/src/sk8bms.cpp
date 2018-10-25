@@ -1,11 +1,32 @@
 #include <Arduino.h>
+#include <avr/pgmspace.h>
 #include "common.h"
 #include <Controller.h>
 #include "OLEDDisplay.h"
 #include "ArduinoHardware.h"
 //#include "EEPROMConfig.h"
 
-OLEDDisplay *display;
+class HackDisplay : public Display {
+public:
+    void setup() override {
+
+    }
+
+    void splash() override {
+
+    }
+
+    void showCellVoltage(uint8_t i, float voltage) override {
+
+    }
+
+    void showHome() override {
+
+    }
+
+};
+
+Display *display;
 ArduinoHardware *hardware;
 Rotary *rotary;
 Controller *controller;
@@ -22,8 +43,7 @@ void setup()
     Serial.begin(9600);
     while(!Serial);
 
-    Serial.println("setup");
-
+//    display = new HackDisplay();
     display = new OLEDDisplay();
     hardware = new ArduinoHardware();
     rotary = new Rotary(hardware, 2, 4, 3);
@@ -31,18 +51,13 @@ void setup()
     sensor = new VoltageSensor(hardware, A3);
     controller = new Controller(hardware, display, rotary, mux, sensor);
 
-    Serial.println("objects created");
-
     controller->setup();
-
-    Serial.println("setup complete");
 
     analogReference(EXTERNAL);
 
     attachInterrupt(digitalPinToInterrupt(rotary->getSW()), rotaryClicked, FALLING);
     attachInterrupt(digitalPinToInterrupt(rotary->getCLK()), rotaryRotated, FALLING);
 
-    Serial.println("leaving setup");
     Serial.print("availableMemory(): ");
     Serial.println(availableMemory());
 }

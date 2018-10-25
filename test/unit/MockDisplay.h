@@ -13,16 +13,12 @@ public:
         splashed = true;
     }
 
-    void setCellVoltage(uint8_t i, float voltage) override {
+    void showCellVoltage(uint8_t i, float voltage) override {
         voltages[i] = voltage;
     }
 
     void showHome() override {
         showedHome = true;
-    }
-
-    void updateCell(uint8_t cell) override {
-        updatedCell = cell;
     }
 
     bool wasSetup = false;

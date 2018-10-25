@@ -24,9 +24,8 @@ public:
     uint8_t pmgByte(const uint8_t *bmp, int i) override;
 
 private:
-    uint8_t *packetBuffer;
     uint8_t packetSize;
 };
 
 
-#endif //SK8BMS_I2COLEDCOMM_H
+#endif

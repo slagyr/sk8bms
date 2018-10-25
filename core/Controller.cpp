@@ -19,13 +19,9 @@ Controller::Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux
 }
 
 void Controller::setup() {
-    hardware->println("display");
     display->setup();
-    hardware->println("rotary");
     rotary->setup();
-    hardware->println("mux");
     mux->setup();
-    hardware->println("sensor");
     sensor->setup();
 
     setScreen(splashScreen);
@@ -78,11 +74,6 @@ void Controller::measureNextCell() {
     currentCell = currentCell == CELL_COUNT - 1 ? 0 : currentCell + 1;
     mux->select(currentCell);
     cellVoltages[currentCell] = sensor->readVoltage();
-
-//    hardware->print("cell/voltage: ");
-//    hardware->print(currentCell);
-//    hardware->print("/");
-//    hardware->println(cellVoltages[currentCell]);
 }
 
 Screen *Controller::getScreen() const {

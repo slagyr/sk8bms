@@ -1,7 +1,7 @@
 #ifndef SK8BMS_CANVAS_H
 #define SK8BMS_CANVAS_H
 
-#include "../.piolibdeps/Adafruit GFX Library_ID13/Adafruit_GFX.h"
+#include "Adafruit_GFX.h"
 
 class Canvas : public Adafruit_GFX {
 public:
@@ -11,7 +11,7 @@ public:
 
     uint8_t *getBuffer();
 
-    void drawPixel(int16_t x, int16_t y, uint16_t color) override;
+    void drawPixel(uint8_t x, uint8_t y, uint8_t color) override;
 
     void clear();
 
