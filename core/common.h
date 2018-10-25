@@ -5,6 +5,11 @@
 
 typedef unsigned char uint8_t;
 
+#ifndef PROGMEM
+#warning "PROGMEM undefined"
+#define PROGMEM
+#endif
+
 inline int availableMemory() {
     int size = 2048; // Use 2048 with ATmega328
     uint8_t *buf;
