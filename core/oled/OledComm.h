@@ -18,6 +18,23 @@ public:
     virtual void endTransmission() = 0;
 
     virtual uint8_t pmgByte(const uint8_t *bpm, int i) = 0;
+
+    void setInverted(bool inverted) {
+        OledComm::inverted = inverted;
+    }
+
+    bool isInverted() const {
+        return inverted;
+    }
+
+protected:
+
+    uint8_t applyInversion(uint8_t g) {
+        return inverted ? ~g : g;
+    }
+
+private:
+    bool inverted = false;
 };
 
 #endif

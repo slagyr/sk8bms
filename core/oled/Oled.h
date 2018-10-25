@@ -23,6 +23,12 @@ public:
 
     void clear(uint8_t x, uint8_t row, uint8_t widthPx, uint8_t heightRows);
 
+    void setInverted(bool b);
+
+    bool isInverted();
+
+    void drawCanvas(uint8_t x, uint8_t row, uint8_t widthPx, uint8_t heightPx, uint8_t *bytes);
+
 private:
 
     OledComm *comm;

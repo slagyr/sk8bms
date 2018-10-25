@@ -2,6 +2,8 @@
 #define SK8BMS_OLEDDISPLAY_H
 
 #include <Display.h>
+#include <oled/Oled.h>
+#include "Canvas.h"
 
 class OLEDDisplay : public Display {
 public:
@@ -22,6 +24,9 @@ private:
     void showLabeledBars() const;
 
     void updateBar(uint8_t cell, int percentage) const;
+
+    Oled *oled;
+    Canvas *voltageBar;
 };
 
 

@@ -142,3 +142,28 @@ TEST_F(OledTest, Clear) {
         EXPECT_EQ(0, comm->transmission->get(i));
 }
 
+TEST_F(OledTest, InvertedText) {
+    oled->setFont(oled_font6x8);
+
+    EXPECT_EQ(false, oled->isInverted());
+    oled->setInverted(true);
+    EXPECT_EQ(true, oled->isInverted());
+
+    oled->writeString(42, 3, "Hello");
+
+    EXPECT_EQ(30, comm->transmission->size());
+    // H
+    EXPECT_EQ(0xFF, comm->transmission->shift());
+    EXPECT_EQ(0x80, comm->transmission->shift());
+    EXPECT_EQ(0xF7, comm->transmission->shift());
+    EXPECT_EQ(0xF7, comm->transmission->shift());
+    EXPECT_EQ(0xF7, comm->transmission->shift());
+    EXPECT_EQ(0x80, comm->transmission->shift());
+    // e
+    EXPECT_EQ(0xFF, comm->transmission->shift());
+    EXPECT_EQ(0xC7, comm->transmission->shift());
+    EXPECT_EQ(0xAB, comm->transmission->shift());
+    EXPECT_EQ(0xAB, comm->transmission->shift());
+    EXPECT_EQ(0xAB, comm->transmission->shift());
+    EXPECT_EQ(0xE7, comm->transmission->shift());
+}

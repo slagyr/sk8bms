@@ -42,7 +42,7 @@ void I2cOledComm::includeByte(uint8_t b) {
         Wire.beginTransmission(SSD1306_ADDRESS);
         Wire.write(SSD1306_DATA);
     }
-    Wire.write(b);
+    Wire.write(applyInversion(b));
     packetSize++;
 }
 

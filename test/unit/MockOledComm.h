@@ -24,7 +24,7 @@ public:
     void sendData(const uint8_t *data, int size) override {
         transmission->clear();
         for(int i = 0; i < size; i++)
-            transmission->add(data[i]);
+            includeByte(data[i]);
     }
 
     void beginTransmission() override {
@@ -33,7 +33,7 @@ public:
     }
 
     void includeByte(uint8_t b) override {
-        transmission->add(b);
+        transmission->add(applyInversion(b));
     }
 
     void endTransmission() override {

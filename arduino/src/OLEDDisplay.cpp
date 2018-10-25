@@ -1,28 +1,32 @@
 #include "OLEDDisplay.h"
 #include <avr/pgmspace.h>
 #include <Wire.h>
-#include "../.piolibdeps/ssd1306_ID1904/src/ssd1306.h"
+#include "I2cOledComm.h"
+#include "Canvas.h"
+#include <oled/Oled.h>
+#include <oled/OledFonts.h>
 #include "splash.h"
 
-OLEDDisplay::OLEDDisplay() {}
+#define BAR_TOP_ROW 2
+#define BAR_ROWS 5
+#define BAR_WID 12
+#define BAR_X_PAD 2
+#define BAR_Y_BOT_PAD 1
+#define WHITE 1
+
+OLEDDisplay::OLEDDisplay() {
+    I2cOledComm *comm = new I2cOledComm();
+    oled = new Oled(comm);
+    voltageBar = new Canvas(BAR_WID, BAR_ROWS * 8);
+}
 
 void OLEDDisplay::setup() {
-    ssd1306_setFixedFont(ssd1306xled_font6x8);
-    ssd1306_128x64_i2c_init();
-    ssd1306_fillScreen(0x00);
-//    ssd1306_createMenu( &menu, menuItems, sizeof(menuItems) / sizeof(char *) );
-//    ssd1306_showMenu( &menu );
+    oled->setup();
 }
 
 void OLEDDisplay::splash() {
-    ssd1306_drawBitmap(0, 0, 128, 64, splashBMP);
+    oled->drawBitmap(0, 0, 128, 64, splashBMP);
 }
-
-#define BAR_TOP 12
-#define BAR_BOT 52
-#define BAR_WID 12
-#define BAR_PAD 2
-#define CELL_ID_Y 56
 
 void OLEDDisplay::setCellVoltage(uint8_t cell, float voltage) {
     auto percentage = (int)((voltage - 2.5) / 1.7 * 100);
@@ -37,54 +41,50 @@ void OLEDDisplay::setCellVoltage(uint8_t cell, float voltage) {
     percentage = percentage > 99 ? 99 : percentage;
     percentage = percentage < 0 ? 0 : percentage;
 
-    for(int i = percentage; i >= 0; i--) {
-        updateBar(cell, i);
-    }
-    for(int i = 0; i <= 99; i++) {
-        updateBar(cell, i);
-    }
     updateBar(cell, percentage);
 }
 
 void OLEDDisplay::updateCell(uint8_t cell) {
-//    Serial.print("update cell: ");
-//    Serial.println(cell);
 }
 
 void OLEDDisplay::showHome() {
-    ssd1306_setFixedFont(ssd1306xled_font6x8);
-    ssd1306_clearScreen();
-
+    oled->clearScreen();
     showLabeledBars();
 }
 
 void OLEDDisplay::updateBar(uint8_t cell, int percentage) const {
-    ssd1306_setFixedFont(ssd1306xled_font5x7);
+    oled->setFont(oled_font5x7);
     char buf[10];
-    itoa(percentage, buf, 10);
 
     uint8_t x = cell * BAR_WID;
-    uint8_t y = BAR_BOT - ((BAR_BOT - BAR_TOP) / 100.0 * percentage);
-    y = y > BAR_BOT - 2 ? BAR_BOT - 2 : y;
 
-    ssd1306_printFixed(x + 1, 0, buf, STYLE_NORMAL);
+    oled->clear(x, 0, BAR_WID, 7);
+    itoa(percentage, buf, 10);
+    oled->writeString(x + BAR_X_PAD, 1, buf);
 
-    ssd1306_clearBlock(x, 0, BAR_WID, 8);
-    ssd1306_drawRect(x + BAR_PAD, BAR_TOP, x + BAR_WID - BAR_PAD, BAR_BOT);
-    itoa(cell, buf, 10);
-    ssd1306_printFixed(x + 3, 56, buf, STYLE_NORMAL);
-    for(int i = x + 1; i < x + BAR_WID - 1; i++) {
-        ssd1306_drawVLine(i, y, BAR_BOT - 1);
-    }
-//    ssd1306_drawRect(x + BAR_PAD + 1, y, x + BAR_WID - BAR_PAD - 1, y + 1);
+
+    voltageBar->clear();
+    voltageBar->drawRect(BAR_X_PAD, 0,
+                         voltageBar->width() - BAR_X_PAD,
+                         voltageBar->height() - BAR_Y_BOT_PAD,
+                         WHITE);
+    uint8_t h = (voltageBar->height() - BAR_Y_BOT_PAD) * percentage / 100.0;
+    voltageBar->fillRect(BAR_X_PAD + 1,
+                         voltageBar->height() - h,
+                         voltageBar->width() - 1 - BAR_X_PAD,
+                         h - BAR_Y_BOT_PAD - 1,
+                         WHITE);
+    oled->drawCanvas(x, BAR_TOP_ROW,
+                     voltageBar->width(), voltageBar->height(),
+                     voltageBar->getBuffer());
 }
 
 void OLEDDisplay::showLabeledBars() const {
+    oled->setFont(oled_font6x8);
     char buf[10];
     for (int i = 0; i < 10; i++) {
         uint8_t x = i * BAR_WID;
-        ssd1306_drawRect(x + BAR_PAD, BAR_TOP, x + BAR_WID - BAR_PAD, BAR_BOT);
         itoa(i, buf, 10);
-        ssd1306_printFixed(x + 3, 56, buf, STYLE_NORMAL);
+        oled->writeString(x + 3, 7, buf);
     }
 }

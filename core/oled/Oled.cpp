@@ -99,3 +99,21 @@ void Oled::clear(uint8_t x, uint8_t row, uint8_t widthPx, uint8_t heightRows) {
         comm->includeByte(0x0);
     comm->endTransmission();
 }
+
+void Oled::setInverted(bool b) {
+    comm->setInverted(b);
+}
+
+bool Oled::isInverted() {
+    return comm->isInverted();
+}
+
+void Oled::drawCanvas(uint8_t x, uint8_t row, uint8_t widthPx, uint8_t heightPx, uint8_t *bytes) {
+    prepareScreenUpdate(x, x + widthPx - 1, row, row + heightPx / 8 - 1);
+    comm->beginTransmission();
+    int bytesInScreen = widthPx * heightPx / 8;
+    for(int i = 0; i < bytesInScreen; i++) {
+        comm->includeByte(bytes[i]);
+    }
+    comm->endTransmission();
+}
