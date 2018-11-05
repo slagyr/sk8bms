@@ -1,7 +1,7 @@
 #include <screen/SplashScreen.h>
 #include <screen/HomeScreen.h>
 #include "Controller.h"
-
+#include "math.h"
 
 Controller::Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, VoltageSensor *sensor) {
     this->hardware = hardware;
@@ -73,7 +73,9 @@ void Controller::tick(unsigned long millis) {
 void Controller::measureNextCell() {
     currentCell = currentCell == CELL_COUNT - 1 ? 0 : currentCell + 1;
     mux->select(currentCell);
-    cellVoltages[currentCell] = sensor->readVoltage();
+    float readVoltage = sensor->readVoltage();
+    currentCellVoltageChanged = abs(readVoltage - cellVoltages[currentCell]) > 0.01;
+    cellVoltages[currentCell] = readVoltage;
 }
 
 Screen *Controller::getScreen() const {
@@ -83,4 +85,8 @@ Screen *Controller::getScreen() const {
 void Controller::setScreen(Screen *screen) {
     this->screen = screen;
     screen->enter();
+}
+
+bool Controller::didCurrentCellVoltageChanged() const {
+    return currentCellVoltageChanged;
 }

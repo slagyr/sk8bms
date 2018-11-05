@@ -37,7 +37,9 @@ public:
 
     void setScreen(Screen *screen);
 
-    uint8_t getCellCount() {return CELL_COUNT;}
+    uint8_t getCellCount() { return CELL_COUNT; }
+
+    bool didCurrentCellVoltageChanged() const;
 
     // Screens
     Screen *splashScreen;
@@ -57,6 +59,7 @@ private:
     Screen *screen;
 
     unsigned long lastUserEventTime;
+    bool currentCellVoltageChanged;
 
     void measureNextCell();
 };
