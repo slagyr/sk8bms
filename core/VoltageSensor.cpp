@@ -2,8 +2,7 @@
 #include "Hardware.h"
 #include "VoltageSensor.h"
 
-#define AnalogToVoltMultiplier 0.004887585532747f;
-#define SAMPLES 10
+#define SAMPLES 10.0
 
 VoltageSensor::VoltageSensor(Hardware *hardware, uint8_t pin) {
     this->hardware = hardware;
@@ -27,7 +26,7 @@ float VoltageSensor::readVoltage() {
             hardware->sleep(1);
     }
 //    float voltage = float(sum) / SAMPLES * AnalogToVoltMultiplier;
-    float voltage = float(sum) / SAMPLES / 1024 * 5.0;
+    float voltage = float(sum) / SAMPLES / 1024.0 * 5.0;
     lastReading = voltage + interferenceAdjustment;
     return lastReading;
 }

@@ -13,11 +13,11 @@ protected:
     Controller *controller;
     MockHardware *hardware;
     Mux *mux;
+    Switch *fetSwitch;
     MockVoltageSensor *sensor;
     Rotary *rotary;
     MockDisplay *display;
     MockScreen *screen;
-
 
     virtual void SetUp() {
         hardware = new MockHardware();
@@ -25,7 +25,8 @@ protected:
         sensor = new MockVoltageSensor(hardware, 5);
         rotary = new Rotary(hardware, 6, 7, 8);
         display = new MockDisplay();
-        controller = new Controller(hardware, display, rotary, mux, sensor);
+        fetSwitch = new Switch(hardware, 9);
+        controller = new Controller(hardware, display, rotary, mux, fetSwitch, sensor);
         screen = new MockScreen(controller);
 
         controller->setup();
@@ -47,6 +48,7 @@ TEST_F(ControllerTest, ContructionWithStuff) {
     EXPECT_EQ(display, controller->getDisplay());
     EXPECT_EQ(rotary, controller->getRotary());
     EXPECT_EQ(mux, controller->getMux());
+    EXPECT_EQ(fetSwitch, controller->getFetSwitch());
     EXPECT_EQ(sensor, controller->getSensor());
 }
 

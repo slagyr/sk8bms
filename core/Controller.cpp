@@ -3,15 +3,18 @@
 #include "Controller.h"
 #include "math.h"
 
-Controller::Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, VoltageSensor *sensor) {
+Controller::Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, VoltageSensor *sensor) {
     this->hardware = hardware;
     this->display = display;
     this->rotary = rotary;
     this->mux = mux;
+    this->fetSwitch = fetSwitch;
     this->sensor = sensor;
 
     currentCell = CELL_COUNT - 1;
-    cellVoltages = new float[CELL_COUNT]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    cellVoltages = new float[CELL_COUNT];
+    for(int i = 0; i < CELL_COUNT; i++)
+        cellVoltages[i] = 0.0;
     lastUserEventTime = 0;
 
     splashScreen = new SplashScreen(this);
@@ -43,6 +46,23 @@ Mux *Controller::getMux() const {
     return mux;
 }
 
+Switch *Controller::getFetSwitch() const {
+    return fetSwitch;
+}
+
+Screen *Controller::getScreen() const {
+    return screen;
+}
+
+void Controller::setScreen(Screen *screen) {
+    this->screen = screen;
+    screen->enter();
+}
+
+bool Controller::didCurrentCellVoltageChanged() const {
+    return currentCellVoltageChanged;
+}
+
 VoltageSensor *Controller::getSensor() const {
     return sensor;
 }
@@ -72,21 +92,41 @@ void Controller::tick(unsigned long millis) {
 
 void Controller::measureNextCell() {
     currentCell = currentCell == CELL_COUNT - 1 ? 0 : currentCell + 1;
-    mux->select(currentCell);
+
+    syncFlyingCap(currentCell);
+
+    float voltage = readFlyingCapVoltage();
+
+//    hardware->print("cell # ");
+//    hardware->print(currentCell);
+//    hardware->print(": ");
+//    hardware->println(voltage);
+
+    currentCellVoltageChanged = abs(voltage - cellVoltages[currentCell]) > 0.01;
+    cellVoltages[currentCell] = voltage;
+}
+
+void Controller::syncFlyingCap(uint8_t cell) const {
+    mux->select(cell);
+    photoMosOn();
+    hardware->sleep(10); // allow the flying cap time to charge
+    photoMosOff();
+}
+
+float Controller::readFlyingCapVoltage() const {
+    mux->select(CELL_COUNT); // sensor optoFET;
+    photoMosOn();
     float readVoltage = sensor->readVoltage();
-    currentCellVoltageChanged = abs(readVoltage - cellVoltages[currentCell]) > 0.01;
-    cellVoltages[currentCell] = readVoltage;
+    photoMosOff();
+    return readVoltage;
 }
 
-Screen *Controller::getScreen() const {
-    return screen;
+void Controller::photoMosOff() const {
+    fetSwitch->off();
+    hardware->sleep(2);
 }
 
-void Controller::setScreen(Screen *screen) {
-    this->screen = screen;
-    screen->enter();
-}
-
-bool Controller::didCurrentCellVoltageChanged() const {
-    return currentCellVoltageChanged;
+void Controller::photoMosOn() const {
+    fetSwitch->on();
+    hardware->sleep(3);
 }

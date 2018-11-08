@@ -7,13 +7,14 @@
 #include "Mux.h"
 #include "VoltageSensor.h"
 #include "Screen.h"
+#include "Switch.h"
 
 #define CELL_COUNT 10
 
 class Controller {
 
 public:
-    Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, VoltageSensor *sensor);
+    Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, VoltageSensor *sensor);
 
     Hardware *getHardware() const;
 
@@ -22,6 +23,8 @@ public:
     Rotary *getRotary() const;
 
     Mux *getMux() const;
+
+    Switch *getFetSwitch() const;
 
     VoltageSensor *getSensor() const;
 
@@ -49,19 +52,28 @@ protected:
 
     uint8_t currentCell;
     float *cellVoltages;
+    bool currentCellVoltageChanged;
 
 private:
     Hardware *hardware;
     Display *display;
     Rotary *rotary;
     Mux *mux;
+    Switch *fetSwitch;
     VoltageSensor *sensor;
     Screen *screen;
 
     unsigned long lastUserEventTime;
-    bool currentCellVoltageChanged;
 
     void measureNextCell();
+
+    void photoMosOn() const;
+
+    void photoMosOff() const;
+
+    float readFlyingCapVoltage() const;
+
+    void syncFlyingCap(uint8_t cell) const;
 };
 
 

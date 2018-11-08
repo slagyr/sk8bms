@@ -11,6 +11,7 @@ public:
 
     Hardware *hardware_;
     Mux *mux_;
+    Switch *fetSwitch_;
     MockVoltageSensor *sensor_;
     Rotary *rotary_;
     MockDisplay *display_;
@@ -20,12 +21,14 @@ public:
         Mux *mux = new Mux(hardware, 0, 1, 2, 3, 4);
         MockVoltageSensor *sensor = new MockVoltageSensor(hardware, 5);
         Rotary *rotary = new Rotary(hardware, 6, 7, 8);
+        Switch *fetSwitch = new Switch(hardware, 9);
         MockDisplay *display = new MockDisplay();
 
-        MockController *controller = new MockController(hardware, display, rotary, mux, sensor);
+        MockController *controller = new MockController(hardware, display, rotary, mux, fetSwitch, sensor);
 
         controller->hardware_ = hardware;
         controller->mux_ = mux;
+        controller->fetSwitch_ = fetSwitch;
         controller->sensor_ = sensor;
         controller->rotary_ = rotary;
         controller->display_ = display;
@@ -33,8 +36,8 @@ public:
         return controller;
     }
 
-    MockController(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, VoltageSensor *sensor) : Controller(
-            hardware, display, rotary, mux, sensor) {}
+    MockController(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, VoltageSensor *sensor) : Controller(
+            hardware, display, rotary, mux, fetSwitch, sensor) {}
 
 
     void hackVoltage(int i, float voltage) {
@@ -44,6 +47,10 @@ public:
     void hackCurrentCell(int i) {
         currentCell = i;
     }
+
+    void hackCurrentCellVoltageChanged(bool b) {
+        currentCellVoltageChanged = b;
+    }
 };
 
-#endif //SK8BMS_MOCKCONTROLLER_H
+#endif

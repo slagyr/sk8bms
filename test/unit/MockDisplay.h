@@ -25,7 +25,6 @@ public:
     bool splashed;
     float *voltages = new float[10]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     bool showedHome;
-    uint8_t updatedCell = 99;
 };
 
-#endif //SK8BMS_MOCKDISPLAY_H
+#endif

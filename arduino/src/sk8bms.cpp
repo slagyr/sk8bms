@@ -31,6 +31,7 @@ ArduinoHardware *hardware;
 Rotary *rotary;
 Controller *controller;
 Mux *mux;
+Switch *fetSwitch;
 VoltageSensor *sensor;
 
 
@@ -38,22 +39,25 @@ void rotaryRotated() { rotary->handleRotation(); }
 
 void rotaryClicked() { rotary->handleClick(); }
 
-void setup()
-{
+void setup() {
     Serial.begin(9600);
-    while(!Serial);
+    while (!Serial);
 
 //    display = new HackDisplay();
     display = new OLEDDisplay();
     hardware = new ArduinoHardware();
     rotary = new Rotary(hardware, 2, 4, 3);
     mux = new Mux(hardware, 5, 6, 7, 8, 9);
+    fetSwitch = new Switch(hardware, 10);
     sensor = new VoltageSensor(hardware, A3);
-    controller = new Controller(hardware, display, rotary, mux, sensor);
+    controller = new Controller(hardware, display, rotary, mux, fetSwitch, sensor);
 
     controller->setup();
 
-    analogReference(EXTERNAL);
+
+    hardware->pinToOutput(11);
+//    analogReference(EXTERNAL);
+    analogReference(DEFAULT);
 
     attachInterrupt(digitalPinToInterrupt(rotary->getSW()), rotaryClicked, FALLING);
     attachInterrupt(digitalPinToInterrupt(rotary->getCLK()), rotaryRotated, FALLING);
@@ -62,8 +66,7 @@ void setup()
     Serial.println(availableMemory());
 }
 
-void loop()
-{
+void loop() {
     controller->tick(millis());
 }
 

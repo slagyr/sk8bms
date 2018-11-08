@@ -55,12 +55,12 @@ TEST_F(HomeScreenTest, Enter) {
 
 TEST_F(HomeScreenTest, Update) {
     controller->hackCurrentCell(6);
+    controller->hackCurrentCellVoltageChanged(true);
     controller->hackVoltage(6, 3.0);
 
     screen->update();
 
     EXPECT_NEAR(3.0, display->voltages[6], 0.01);
-    EXPECT_EQ(6, display->updatedCell);
 }
 
 
