@@ -10,7 +10,7 @@ protected:
 
     virtual void SetUp() {
         hardware = new MockHardware();
-        sensor = new VoltageSensor(hardware, 7);
+        sensor = new VoltageSensor(hardware, 7, 5.0);
     }
 
     virtual void TearDown() {
@@ -66,4 +66,11 @@ TEST_F(VoltageSensorTest, LastReading) {
         hardware->analogReads[7].push(1023);
     sensor->readVoltage();
     EXPECT_NEAR(5.0, sensor->getLastReading(), 0.01);
+}
+
+TEST_F(VoltageSensorTest, Reading2_5VoltsWith4_5Rref) {
+    sensor->setReferenceVoltage(4.5);
+    for(int i = 0; i < 10; i++)
+        hardware->analogReads[7].push(569);
+    EXPECT_NEAR(2.5, sensor->readVoltage(), 0.01);
 }

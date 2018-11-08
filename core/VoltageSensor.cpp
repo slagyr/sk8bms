@@ -2,11 +2,12 @@
 #include "Hardware.h"
 #include "VoltageSensor.h"
 
-#define SAMPLES 10.0
+#define SAMPLES 20
 
-VoltageSensor::VoltageSensor(Hardware *hardware, uint8_t pin) {
+VoltageSensor::VoltageSensor(Hardware *hardware, uint8_t pin, float referenceVoltage) {
     this->hardware = hardware;
     this->pin = pin;
+    this->referenceVoltage = referenceVoltage;
     this->interferenceAdjustment = 0.0;
 }
 
@@ -26,7 +27,8 @@ float VoltageSensor::readVoltage() {
             hardware->sleep(1);
     }
 //    float voltage = float(sum) / SAMPLES * AnalogToVoltMultiplier;
-    float voltage = float(sum) / SAMPLES / 1024.0 * 5.0;
+//    float voltage = float(sum) / SAMPLES / 1024.0 * 5.0;
+    float voltage = float(sum) / SAMPLES / 1024.0 * referenceVoltage;
     lastReading = voltage + interferenceAdjustment;
     return lastReading;
 }
@@ -45,4 +47,12 @@ float VoltageSensor::getLastReading() {
 
 void VoltageSensor::setup() {
     hardware->pinToInput(pin);
+}
+
+float VoltageSensor::getReferenceVoltage() const {
+    return referenceVoltage;
+}
+
+void VoltageSensor::setReferenceVoltage(float referenceVoltage) {
+    VoltageSensor::referenceVoltage = referenceVoltage;
 }

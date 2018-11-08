@@ -5,9 +5,9 @@
 
 class MockVoltageSensor : public VoltageSensor {
 public:
-    MockVoltageSensor() : VoltageSensor(nullptr, 0) {}
+    MockVoltageSensor() : VoltageSensor(nullptr, 0, 0) {}
 
-    MockVoltageSensor(Hardware* hardware, uint8_t pin) : VoltageSensor(hardware, pin) {}
+    MockVoltageSensor(Hardware* hardware, uint8_t pin) : VoltageSensor(hardware, pin, 0) {}
 
     float readVoltage() override {
         lastReading = volts;

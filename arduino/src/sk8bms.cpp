@@ -49,15 +49,15 @@ void setup() {
     rotary = new Rotary(hardware, 2, 4, 3);
     mux = new Mux(hardware, 5, 6, 7, 8, 9);
     fetSwitch = new Switch(hardware, 10);
-    sensor = new VoltageSensor(hardware, A3);
+    sensor = new VoltageSensor(hardware, A3, 4.74);
     controller = new Controller(hardware, display, rotary, mux, fetSwitch, sensor);
 
     controller->setup();
 
 
     hardware->pinToOutput(11);
-//    analogReference(EXTERNAL);
-    analogReference(DEFAULT);
+    analogReference(EXTERNAL);
+//    analogReference(DEFAULT);
 
     attachInterrupt(digitalPinToInterrupt(rotary->getSW()), rotaryClicked, FALLING);
     attachInterrupt(digitalPinToInterrupt(rotary->getCLK()), rotaryRotated, FALLING);

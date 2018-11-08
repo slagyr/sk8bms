@@ -120,23 +120,29 @@ void Controller::measureNextCell() {
 
 void Controller::configureBalancing() {
     balancingChanged = false;
-    if (cellVoltages[currentCell] < lowestVoltage) {
-        lowestVoltage = cellVoltages[currentCell];
-        if (lowestVoltageCell != currentCell) {
-            lowestVoltageCell = currentCell;
+    if (currentCell == CELL_COUNT - 1) {
+        lowestVoltage = 5.0;
+        highestVoltage = 0.0;
+        for (uint8_t i = 0; i < CELL_COUNT; i++) {
+            if (cellVoltages[i] < lowestVoltage) {
+                lowestVoltage = cellVoltages[i];
+                if (lowestVoltageCell != i) {
+                    lowestVoltageCell = i;
+                    balancingChanged = true;
+                }
+            } else if (cellVoltages[i] > highestVoltage) {
+                highestVoltage = cellVoltages[i];
+                if (highestVoltageCell != i) {
+                    highestVoltageCell = i;
+                    balancingChanged = true;
+                }
+            }
+        }
+        bool shouldBalance = highestVoltage - lowestVoltage > 0.05;
+        if (shouldBalance != balancing) {
+            balancing = shouldBalance;
             balancingChanged = true;
         }
-    } else if (cellVoltages[currentCell] > highestVoltage) {
-        highestVoltage = cellVoltages[currentCell];
-        if (highestVoltageCell != currentCell) {
-            highestVoltageCell = currentCell;
-            balancingChanged = true;
-        }
-    }
-    bool shouldBalance = highestVoltage - lowestVoltage > 0.05;
-    if (shouldBalance != balancing) {
-        balancing = shouldBalance;
-        balancingChanged = true;
     }
 }
 
@@ -162,7 +168,7 @@ void Controller::photoMosOff() const {
 
 void Controller::photoMosOn() const {
     fetSwitch->on();
-    hardware->sleep(3);
+    hardware->sleep(10);
 }
 
 uint8_t Controller::getLowestVoltageCell() const {
@@ -190,6 +196,8 @@ bool Controller::isBalancing() const {
 }
 
 void Controller::balance() {
-    syncFlyingCap(highestVoltageCell);
-    syncFlyingCap(lowestVoltageCell);
+    for (uint8_t i = 0; i < 3; i++) {
+        syncFlyingCap(highestVoltageCell);
+        syncFlyingCap(lowestVoltageCell);
+    }
 }
