@@ -14,6 +14,8 @@ public:
 
     virtual void showHome() = 0;
 
+    virtual void showBalancing(bool isOn, uint8_t low, uint8_t high) = 0;
+
 };
 
 

@@ -21,10 +21,20 @@ public:
         showedHome = true;
     }
 
+    void showBalancing(bool isOn, uint8_t low, uint8_t high) override {
+        balancingIndicated = isOn;
+        balanceToCell = low;
+        balanceFromCell = high;
+    }
+
     bool wasSetup = false;
     bool splashed;
     float *voltages = new float[10]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     bool showedHome;
+
+    uint8_t balanceToCell;
+    uint8_t balanceFromCell;
+    bool balancingIndicated;
 };
 
 #endif

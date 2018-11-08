@@ -17,6 +17,8 @@ public:
 
     void showHome() override;
 
+    void showBalancing(bool isBalancing, uint8_t to, uint8_t from) override;
+
 private:
 
     void showLabeledBars() const;

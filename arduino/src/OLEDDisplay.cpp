@@ -31,12 +31,12 @@ void OLEDDisplay::splash() {
 void OLEDDisplay::showCellVoltage(uint8_t cell, float voltage) {
     auto percentage = (int)((voltage - 2.5) / 1.7 * 100);
 
-//    Serial.print("cell:\t");
-//    Serial.print(cell);
-//    Serial.print("\tvoltage:\t");
-//    Serial.print(voltage);
-//    Serial.print("\tpercentage:\t");
-//    Serial.println(percentage);
+    Serial.print("cell:\t");
+    Serial.print(cell);
+    Serial.print("\tvoltage:\t");
+    Serial.print(voltage);
+    Serial.print("\tpercentage:\t");
+    Serial.println(percentage);
 
     percentage = percentage > 99 ? 99 : percentage;
     percentage = percentage < 0 ? 0 : percentage;
@@ -55,7 +55,7 @@ void OLEDDisplay::updateBar(uint8_t cell, int percentage) const {
 
     uint8_t x = cell * BAR_WID;
 
-    oled->clear(x, 0, BAR_WID, 7);
+    oled->clear(x, 1, BAR_WID, 6);
     itoa(percentage, buf, 10);
     oled->writeString(x + BAR_X_PAD, 1, buf);
 
@@ -83,5 +83,21 @@ void OLEDDisplay::showLabeledBars() const {
         uint8_t x = i * BAR_WID;
         itoa(i, buf, 10);
         oled->writeString(x + 3, 7, buf);
+    }
+}
+
+void OLEDDisplay::showBalancing(bool isBalancing, uint8_t to, uint8_t from) {
+    oled->clear(0, 0, 128, 1);
+    if(isBalancing) {
+        Serial.print("to: ");
+        Serial.println(to);
+        Serial.print("from: ");
+        Serial.println(from);
+
+        uint8_t x = to * BAR_WID;
+        oled->writeString(x + BAR_X_PAD, 0, "+");
+
+        x = from * BAR_WID;
+        oled->writeString(x + BAR_X_PAD, 0, "-");
     }
 }

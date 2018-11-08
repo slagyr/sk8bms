@@ -16,11 +16,14 @@ void HomeScreen::enter() {
 }
 
 void HomeScreen::update() {
+    Display *display = controller->getDisplay();
     if (controller->didCurrentCellVoltageChanged()) {
-        Display *display = controller->getDisplay();
         uint8_t currentCell = controller->getCurrentCell();
         float voltage = controller->getCellVoltage(currentCell);
         display->showCellVoltage(currentCell, voltage);
+    }
+    if(controller->didBalancingChanged()) {
+        display->showBalancing(controller->isBalancing(), controller->getLowestVoltageCell(), controller->getHighestVoltageCell());
     }
 }
 

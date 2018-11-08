@@ -51,6 +51,13 @@ public:
     void hackCurrentCellVoltageChanged(bool b) {
         currentCellVoltageChanged = b;
     }
+
+    void hackBalancing(uint8_t low, uint8_t high, bool balancing) {
+        lowestVoltageCell = low;
+        highestVoltageCell = high;
+        this->balancing = balancing;
+        balancingChanged = true;
+    }
 };
 
 #endif

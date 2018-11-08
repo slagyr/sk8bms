@@ -63,4 +63,14 @@ TEST_F(HomeScreenTest, Update) {
     EXPECT_NEAR(3.0, display->voltages[6], 0.01);
 }
 
+TEST_F(HomeScreenTest, BalancingIndication) {
+    controller->hackBalancing(3, 6, true);
+
+    screen->update();
+
+    EXPECT_EQ(3, display->balanceToCell);
+    EXPECT_EQ(6, display->balanceFromCell);
+    EXPECT_EQ(true, display->balancingIndicated);
+}
+
 

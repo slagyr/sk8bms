@@ -14,7 +14,8 @@
 class Controller {
 
 public:
-    Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, VoltageSensor *sensor);
+    Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch,
+               VoltageSensor *sensor);
 
     Hardware *getHardware() const;
 
@@ -44,6 +45,18 @@ public:
 
     bool didCurrentCellVoltageChanged() const;
 
+    uint8_t getLowestVoltageCell() const;
+
+    float getLowestVoltage() const;
+
+    uint8_t getHighestVoltageCell() const;
+
+    float getHighestVoltage() const;
+
+    bool didBalancingChanged() const;
+
+    bool isBalancing() const;
+
     // Screens
     Screen *splashScreen;
     Screen *homeScreen;
@@ -53,8 +66,15 @@ protected:
     uint8_t currentCell;
     float *cellVoltages;
     bool currentCellVoltageChanged;
+    uint8_t lowestVoltageCell = 0;
+    float lowestVoltage = 5.0;
+    uint8_t highestVoltageCell = 0;
+    float highestVoltage = 0.0;
+    bool balancingChanged;
+    bool balancing;
 
 private:
+
     Hardware *hardware;
     Display *display;
     Rotary *rotary;
@@ -74,6 +94,10 @@ private:
     float readFlyingCapVoltage() const;
 
     void syncFlyingCap(uint8_t cell) const;
+
+    void configureBalancing();
+
+    void balance();
 };
 
 

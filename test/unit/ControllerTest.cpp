@@ -62,6 +62,7 @@ TEST_F(ControllerTest, Setup) {
     controller->setup();
 
     EXPECT_EQ("OUTPUT", hardware->pinModes[0]); // mux
+    EXPECT_EQ("OUTPUT", hardware->pinModes[fetSwitch->getPin()]);
     EXPECT_EQ("INPUT", hardware->pinModes[5]); // voltage sensor
     EXPECT_EQ("INPUT", hardware->pinModes[6]); // rotarysensor
     EXPECT_EQ(true, display->wasSetup);
@@ -94,4 +95,32 @@ TEST_F(ControllerTest, EnteringScreen) {
     controller->setScreen(screen);
 
     EXPECT_EQ(true, screen->entered);
+}
+
+TEST_F(ControllerTest, BalancingSetup) {
+    controller->setScreen(screen);
+    for (int i = 0; i < 10; i++) {
+        sensor->volts = float(3.0 + 0.1 * i);
+        controller->tick(1111 * i);
+    }
+
+    EXPECT_EQ(0, controller->getLowestVoltageCell());
+    EXPECT_NEAR(3.0, controller->getLowestVoltage(), 0.01);
+    EXPECT_EQ(9, controller->getHighestVoltageCell());
+    EXPECT_NEAR(3.9, controller->getHighestVoltage(), 0.01);
+    EXPECT_EQ(true, controller->isBalancing());
+}
+
+TEST_F(ControllerTest, BalancingButDiffInCellsTooSmallToBalance) {
+    controller->setScreen(screen);
+    for (int i = 0; i < 10; i++) {
+        sensor->volts = float(3.0 + 0.001 * i);
+        controller->tick(1111 * i);
+    }
+
+    EXPECT_EQ(0, controller->getLowestVoltageCell());
+    EXPECT_NEAR(3.0, controller->getLowestVoltage(), 0.01);
+    EXPECT_EQ(9, controller->getHighestVoltageCell());
+    EXPECT_NEAR(3.009, controller->getHighestVoltage(), 0.01);
+    EXPECT_EQ(false, controller->isBalancing());
 }
