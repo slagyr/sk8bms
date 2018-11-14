@@ -37,7 +37,7 @@ public:
     }
 
     MockController(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, VoltageSensor *sensor) : Controller(
-            hardware, display, rotary, mux, fetSwitch, sensor) {}
+            hardware, display, rotary, mux, fetSwitch, nullptr, nullptr, sensor) {}
 
 
     void hackVoltage(int i, float voltage) {

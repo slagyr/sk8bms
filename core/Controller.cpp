@@ -3,13 +3,15 @@
 #include "Controller.h"
 #include "math.h"
 
-Controller::Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch,
-                       VoltageSensor *sensor) {
+Controller::Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, Switch *capSwitch,
+                       Switch *balanceSwitch, VoltageSensor *sensor) {
     this->hardware = hardware;
     this->display = display;
     this->rotary = rotary;
     this->mux = mux;
     this->fetSwitch = fetSwitch;
+    this->capSwitch = capSwitch;
+    this->balanceSwitch = balanceSwitch;
     this->sensor = sensor;
 
     currentCell = CELL_COUNT - 1;
@@ -28,6 +30,8 @@ void Controller::setup() {
     rotary->setup();
     mux->setup();
     fetSwitch->setup();
+    capSwitch->setup();
+    balanceSwitch->setup();
     sensor->setup();
 
     setScreen(splashScreen);
@@ -83,7 +87,8 @@ float Controller::getCellVoltage(uint8_t cell) {
 
 void Controller::tick(unsigned long millis) {
     measureNextCell();
-    configureBalancing();
+    if(currentCell == CELL_COUNT - 1)
+        configureBalancing();
     if (balancing)
         balance();
 
@@ -148,27 +153,38 @@ void Controller::configureBalancing() {
 
 void Controller::syncFlyingCap(uint8_t cell) const {
     mux->select(cell);
-    photoMosOn();
+
+    capSwitch->on();
+    openMuxFet();
+
     hardware->sleep(10); // give the flying cap time to charge
-    photoMosOff();
+
+    capSwitch->off();
+    closeMuxFet();
 }
 
 float Controller::readFlyingCapVoltage() const {
     mux->select(CELL_COUNT); // sensor optoFET;
-    photoMosOn();
+
+    capSwitch->on();
+    openMuxFet();
+
     float readVoltage = sensor->readVoltage();
-    photoMosOff();
+
+    capSwitch->off();
+    closeMuxFet();
+
     return readVoltage;
 }
 
-void Controller::photoMosOff() const {
+void Controller::closeMuxFet() const {
     fetSwitch->off();
     hardware->sleep(2);
 }
 
-void Controller::photoMosOn() const {
+void Controller::openMuxFet() const {
     fetSwitch->on();
-    hardware->sleep(10);
+    hardware->sleep(3);
 }
 
 uint8_t Controller::getLowestVoltageCell() const {
@@ -196,8 +212,26 @@ bool Controller::isBalancing() const {
 }
 
 void Controller::balance() {
-    for (uint8_t i = 0; i < 3; i++) {
-        syncFlyingCap(highestVoltageCell);
-        syncFlyingCap(lowestVoltageCell);
-    }
+    mux->select(lowestVoltageCell);
+
+    balanceSwitch->on();
+    openMuxFet();
+
+    hardware->sleep(2000);
+
+    balanceSwitch->off();
+    closeMuxFet();
+
+//    for (uint8_t i = 0; i < 3; i++) {
+//        syncFlyingCap(highestVoltageCell);
+//        syncFlyingCap(lowestVoltageCell);
+//    }
+}
+
+Switch *Controller::getBalanceSwitch() const {
+    return balanceSwitch;
+}
+
+Switch *Controller::getCapSwitch() const {
+    return capSwitch;
 }

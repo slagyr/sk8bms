@@ -14,8 +14,8 @@
 class Controller {
 
 public:
-    Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch,
-               VoltageSensor *sensor);
+    Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, Switch *capSwitch,
+                   Switch *balanceSwitch, VoltageSensor *sensor);
 
     Hardware *getHardware() const;
 
@@ -26,6 +26,10 @@ public:
     Mux *getMux() const;
 
     Switch *getFetSwitch() const;
+
+    Switch *getCapSwitch() const;
+
+    Switch *getBalanceSwitch() const;
 
     VoltageSensor *getSensor() const;
 
@@ -80,6 +84,8 @@ private:
     Rotary *rotary;
     Mux *mux;
     Switch *fetSwitch;
+    Switch *capSwitch;
+    Switch *balanceSwitch;
     VoltageSensor *sensor;
     Screen *screen;
 
@@ -87,9 +93,9 @@ private:
 
     void measureNextCell();
 
-    void photoMosOn() const;
+    void openMuxFet() const;
 
-    void photoMosOff() const;
+    void closeMuxFet() const;
 
     float readFlyingCapVoltage() const;
 

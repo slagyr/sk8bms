@@ -89,15 +89,15 @@ void OLEDDisplay::showLabeledBars() const {
 void OLEDDisplay::showBalancing(bool isBalancing, uint8_t to, uint8_t from) {
     oled->clear(0, 0, 128, 1);
     if(isBalancing) {
-        Serial.print("to: ");
+        Serial.print("balancing: ");
         Serial.println(to);
-        Serial.print("from: ");
-        Serial.println(from);
+//        Serial.print("from: ");
+//        Serial.println(from);
 
         uint8_t x = to * BAR_WID;
         oled->writeString(x + BAR_X_PAD, 0, "+");
 
-        x = from * BAR_WID;
-        oled->writeString(x + BAR_X_PAD, 0, "-");
+//        x = from * BAR_WID;
+//        oled->writeString(x + BAR_X_PAD, 0, "-");
     }
 }

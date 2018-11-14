@@ -14,6 +14,8 @@ protected:
     MockHardware *hardware;
     Mux *mux;
     Switch *fetSwitch;
+    Switch *capSwitch;
+    Switch *balanceSwitch;
     MockVoltageSensor *sensor;
     Rotary *rotary;
     MockDisplay *display;
@@ -26,7 +28,9 @@ protected:
         rotary = new Rotary(hardware, 6, 7, 8);
         display = new MockDisplay();
         fetSwitch = new Switch(hardware, 9);
-        controller = new Controller(hardware, display, rotary, mux, fetSwitch, sensor);
+        capSwitch = new Switch(hardware, 10);
+        balanceSwitch = new Switch(hardware, 11);
+        controller = new Controller(hardware, display, rotary, mux, fetSwitch, capSwitch, balanceSwitch, sensor);
         screen = new MockScreen(controller);
 
         controller->setup();
@@ -49,6 +53,8 @@ TEST_F(ControllerTest, ContructionWithStuff) {
     EXPECT_EQ(rotary, controller->getRotary());
     EXPECT_EQ(mux, controller->getMux());
     EXPECT_EQ(fetSwitch, controller->getFetSwitch());
+    EXPECT_EQ(capSwitch, controller->getCapSwitch());
+    EXPECT_EQ(balanceSwitch, controller->getBalanceSwitch());
     EXPECT_EQ(sensor, controller->getSensor());
 }
 
@@ -63,6 +69,8 @@ TEST_F(ControllerTest, Setup) {
 
     EXPECT_EQ("OUTPUT", hardware->pinModes[0]); // mux
     EXPECT_EQ("OUTPUT", hardware->pinModes[fetSwitch->getPin()]);
+    EXPECT_EQ("OUTPUT", hardware->pinModes[capSwitch->getPin()]);
+    EXPECT_EQ("OUTPUT", hardware->pinModes[balanceSwitch->getPin()]);
     EXPECT_EQ("INPUT", hardware->pinModes[5]); // voltage sensor
     EXPECT_EQ("INPUT", hardware->pinModes[6]); // rotarysensor
     EXPECT_EQ(true, display->wasSetup);

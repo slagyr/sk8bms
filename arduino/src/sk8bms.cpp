@@ -32,6 +32,8 @@ Rotary *rotary;
 Controller *controller;
 Mux *mux;
 Switch *fetSwitch;
+Switch *capSwitch;
+Switch *balanceSwitch;
 VoltageSensor *sensor;
 
 
@@ -49,11 +51,12 @@ void setup() {
     rotary = new Rotary(hardware, 2, 4, 3);
     mux = new Mux(hardware, 5, 6, 7, 8, 9);
     fetSwitch = new Switch(hardware, 10);
+    capSwitch = new Switch(hardware, 12);
+    balanceSwitch = new Switch(hardware, 11);
     sensor = new VoltageSensor(hardware, A3, 4.74);
-    controller = new Controller(hardware, display, rotary, mux, fetSwitch, sensor);
+    controller = new Controller(hardware, display, rotary, mux, fetSwitch, capSwitch, balanceSwitch, sensor);
 
     controller->setup();
-
 
     hardware->pinToOutput(11);
     analogReference(EXTERNAL);
