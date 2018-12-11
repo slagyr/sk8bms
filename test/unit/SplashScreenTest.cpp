@@ -27,6 +27,6 @@ TEST_F(SplashScreenTest, Hardcoding) {
 TEST_F(SplashScreenTest, Enter) {
     screen->enter();
 
-    EXPECT_EQ(true, controller->display_->splashed);
+    EXPECT_EQ(true, controller->mockDisplay->splashed);
 }
 

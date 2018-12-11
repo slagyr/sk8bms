@@ -6,7 +6,7 @@ const char *SplashScreen::getName() {
 }
 
 void SplashScreen::enter() {
-    controller->getDisplay()->splash();
+    controller->display->splash();
 }
 
 void SplashScreen::update() {

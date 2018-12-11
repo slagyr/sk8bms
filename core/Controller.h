@@ -8,30 +8,14 @@
 #include "VoltageSensor.h"
 #include "Screen.h"
 #include "Switch.h"
+#include "Context.h"
 
 #define CELL_COUNT 10
 
 class Controller {
 
 public:
-    Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, Switch *capSwitch,
-                   Switch *balanceSwitch, VoltageSensor *sensor);
-
-    Hardware *getHardware() const;
-
-    Display *getDisplay() const;
-
-    Rotary *getRotary() const;
-
-    Mux *getMux() const;
-
-    Switch *getFetSwitch() const;
-
-    Switch *getCapSwitch() const;
-
-    Switch *getBalanceSwitch() const;
-
-    VoltageSensor *getSensor() const;
+    Controller();
 
     void setup();
 
@@ -41,9 +25,9 @@ public:
 
     void tick(unsigned long millis);
 
-    Screen *getScreen() const;
-
     void setScreen(Screen *screen);
+
+    Screen* getScreen();
 
     uint8_t getCellCount() { return CELL_COUNT; }
 
@@ -65,7 +49,19 @@ public:
     Screen *splashScreen;
     Screen *homeScreen;
 
+    Hardware *hardware;
+    Display *display;
+    Rotary *rotary;
+    Mux *mux;
+    Switch *fetSwitch;
+    Switch *capSwitch;
+    Switch *balanceSwitch;
+    VoltageSensor *cellSensor;
+    VoltageSensor *loadSensor;
+
 protected:
+
+    Screen* screen;
 
     uint8_t currentCell;
     float *cellVoltages;
@@ -78,16 +74,6 @@ protected:
     bool balancing;
 
 private:
-
-    Hardware *hardware;
-    Display *display;
-    Rotary *rotary;
-    Mux *mux;
-    Switch *fetSwitch;
-    Switch *capSwitch;
-    Switch *balanceSwitch;
-    VoltageSensor *sensor;
-    Screen *screen;
 
     unsigned long lastUserEventTime;
 

@@ -12,7 +12,7 @@ protected:
     virtual void SetUp() {
         controller = MockController::create();
         screen = new HomeScreen(controller);
-        display = controller->display_;
+        display = controller->mockDisplay;
     }
 
     virtual void TearDown() {

@@ -3,17 +3,7 @@
 #include "Controller.h"
 #include "math.h"
 
-Controller::Controller(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, Switch *capSwitch,
-                       Switch *balanceSwitch, VoltageSensor *sensor) {
-    this->hardware = hardware;
-    this->display = display;
-    this->rotary = rotary;
-    this->mux = mux;
-    this->fetSwitch = fetSwitch;
-    this->capSwitch = capSwitch;
-    this->balanceSwitch = balanceSwitch;
-    this->sensor = sensor;
-
+Controller::Controller() {
     currentCell = CELL_COUNT - 1;
     cellVoltages = new float[CELL_COUNT];
     for (int i = 0; i < CELL_COUNT; i++)
@@ -32,33 +22,10 @@ void Controller::setup() {
     fetSwitch->setup();
     capSwitch->setup();
     balanceSwitch->setup();
-    sensor->setup();
+    cellSensor->setup();
+    loadSensor->setup();
 
     setScreen(splashScreen);
-}
-
-Hardware *Controller::getHardware() const {
-    return hardware;
-}
-
-Display *Controller::getDisplay() const {
-    return display;
-}
-
-Rotary *Controller::getRotary() const {
-    return rotary;
-}
-
-Mux *Controller::getMux() const {
-    return mux;
-}
-
-Switch *Controller::getFetSwitch() const {
-    return fetSwitch;
-}
-
-Screen *Controller::getScreen() const {
-    return screen;
 }
 
 void Controller::setScreen(Screen *screen) {
@@ -66,12 +33,12 @@ void Controller::setScreen(Screen *screen) {
     screen->enter();
 }
 
-bool Controller::didCurrentCellVoltageChanged() const {
-    return currentCellVoltageChanged;
+Screen *Controller::getScreen() {
+    return screen;
 }
 
-VoltageSensor *Controller::getSensor() const {
-    return sensor;
+bool Controller::didCurrentCellVoltageChanged() const {
+    return currentCellVoltageChanged;
 }
 
 uint8_t Controller::getCurrentCell() {
@@ -87,6 +54,11 @@ float Controller::getCellVoltage(uint8_t cell) {
 
 void Controller::tick(unsigned long millis) {
     measureNextCell();
+
+    float loadVoltage = loadSensor->readVoltage();
+    hardware->print("loadVoltage: ");
+    hardware->println(loadVoltage);
+
     if(currentCell == CELL_COUNT - 1)
         configureBalancing();
     if (balancing)
@@ -169,7 +141,7 @@ float Controller::readFlyingCapVoltage() const {
     capSwitch->on();
     openMuxFet();
 
-    float readVoltage = sensor->readVoltage();
+    float readVoltage = cellSensor->readVoltage();
 
     capSwitch->off();
     closeMuxFet();
@@ -226,12 +198,4 @@ void Controller::balance() {
 //        syncFlyingCap(highestVoltageCell);
 //        syncFlyingCap(lowestVoltageCell);
 //    }
-}
-
-Switch *Controller::getBalanceSwitch() const {
-    return balanceSwitch;
-}
-
-Switch *Controller::getCapSwitch() const {
-    return capSwitch;
 }

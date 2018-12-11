@@ -30,11 +30,6 @@ Display *display;
 ArduinoHardware *hardware;
 Rotary *rotary;
 Controller *controller;
-Mux *mux;
-Switch *fetSwitch;
-Switch *capSwitch;
-Switch *balanceSwitch;
-VoltageSensor *sensor;
 
 
 void rotaryRotated() { rotary->handleRotation(); }
@@ -45,20 +40,21 @@ void setup() {
     Serial.begin(9600);
     while (!Serial);
 
+    controller = new Controller();
 //    display = new HackDisplay();
-    display = new OLEDDisplay();
-    hardware = new ArduinoHardware();
-    rotary = new Rotary(hardware, 2, 4, 3);
-    mux = new Mux(hardware, 5, 6, 7, 8, 9);
-    fetSwitch = new Switch(hardware, 10);
-    capSwitch = new Switch(hardware, 12);
-    balanceSwitch = new Switch(hardware, 11);
-    sensor = new VoltageSensor(hardware, A3, 4.74);
-    controller = new Controller(hardware, display, rotary, mux, fetSwitch, capSwitch, balanceSwitch, sensor);
+    controller->display = new OLEDDisplay();
+    controller->hardware = new ArduinoHardware();
+    controller->rotary = new Rotary(controller->hardware, 2, 4, 3);
+    controller->mux = new Mux(controller->hardware, 5, 6, 7, 8, 9);
+    controller->fetSwitch = new Switch(controller->hardware, 10);
+    controller->capSwitch = new Switch(controller->hardware, 12);
+    controller->balanceSwitch = new Switch(controller->hardware, 11);
+    controller->cellSensor = new VoltageSensor(controller->hardware, A3, 4.74);
+    controller->loadSensor = new VoltageSensor(controller->hardware, A1, 4.74);
 
     controller->setup();
 
-    hardware->pinToOutput(11);
+    controller->hardware->pinToOutput(11);
     analogReference(EXTERNAL);
 //    analogReference(DEFAULT);
 

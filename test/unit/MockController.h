@@ -9,12 +9,8 @@
 class MockController : public Controller {
 public:
 
-    Hardware *hardware_;
-    Mux *mux_;
-    Switch *fetSwitch_;
-    MockVoltageSensor *sensor_;
-    Rotary *rotary_;
-    MockDisplay *display_;
+    MockVoltageSensor *mockVoltageSensor;
+    MockDisplay *mockDisplay;
 
     static MockController *create() {
         Hardware *hardware = new MockHardware();
@@ -24,21 +20,19 @@ public:
         Switch *fetSwitch = new Switch(hardware, 9);
         MockDisplay *display = new MockDisplay();
 
-        MockController *controller = new MockController(hardware, display, rotary, mux, fetSwitch, sensor);
+        MockController *controller = new MockController();
 
-        controller->hardware_ = hardware;
-        controller->mux_ = mux;
-        controller->fetSwitch_ = fetSwitch;
-        controller->sensor_ = sensor;
-        controller->rotary_ = rotary;
-        controller->display_ = display;
+        controller->hardware = hardware;
+        controller->mux = mux;
+        controller->fetSwitch = fetSwitch;
+        controller->cellSensor = sensor;
+        controller->rotary = rotary;
+        controller->display = display;
 
         return controller;
     }
 
-    MockController(Hardware *hardware, Display *display, Rotary *rotary, Mux *mux, Switch *fetSwitch, VoltageSensor *sensor) : Controller(
-            hardware, display, rotary, mux, fetSwitch, nullptr, nullptr, sensor) {}
-
+    MockController() : Controller() {}
 
     void hackVoltage(int i, float voltage) {
         cellVoltages[i] = voltage;

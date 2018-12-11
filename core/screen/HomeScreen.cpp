@@ -8,7 +8,7 @@ const char *HomeScreen::getName() {
 }
 
 void HomeScreen::enter() {
-    Display *display = controller->getDisplay();
+    Display *display = controller->display;
     display->showHome();
     for (int i = 0; i < controller->getCellCount(); i++) {
         display->showCellVoltage(i, controller->getCellVoltage(i));
@@ -16,7 +16,7 @@ void HomeScreen::enter() {
 }
 
 void HomeScreen::update() {
-    Display *display = controller->getDisplay();
+    Display *display = controller->display;
     if (controller->didCurrentCellVoltageChanged()) {
         uint8_t currentCell = controller->getCurrentCell();
         float voltage = controller->getCellVoltage(currentCell);

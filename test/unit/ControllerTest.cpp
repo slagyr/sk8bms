@@ -16,21 +16,25 @@ protected:
     Switch *fetSwitch;
     Switch *capSwitch;
     Switch *balanceSwitch;
-    MockVoltageSensor *sensor;
+    MockVoltageSensor *cellSensor;
+    MockVoltageSensor *loadSensor;
     Rotary *rotary;
     MockDisplay *display;
     MockScreen *screen;
 
     virtual void SetUp() {
-        hardware = new MockHardware();
-        mux = new Mux(hardware, 0, 1, 2, 3, 4);
-        sensor = new MockVoltageSensor(hardware, 5);
-        rotary = new Rotary(hardware, 6, 7, 8);
-        display = new MockDisplay();
-        fetSwitch = new Switch(hardware, 9);
-        capSwitch = new Switch(hardware, 10);
-        balanceSwitch = new Switch(hardware, 11);
-        controller = new Controller(hardware, display, rotary, mux, fetSwitch, capSwitch, balanceSwitch, sensor);
+        controller = new Controller();
+
+        controller->hardware = hardware = new MockHardware();
+        controller->mux = mux = new Mux(hardware, 0, 1, 2, 3, 4);
+        controller->cellSensor = cellSensor = new MockVoltageSensor(hardware, 5);
+        controller->loadSensor = loadSensor = new MockVoltageSensor(hardware, 12);
+        controller->rotary = rotary = new Rotary(hardware, 6, 7, 8);
+        controller->display = display = new MockDisplay();
+        controller->fetSwitch = fetSwitch = new Switch(hardware, 9);
+        controller->capSwitch = capSwitch = new Switch(hardware, 10);
+        controller->balanceSwitch = balanceSwitch = new Switch(hardware, 11);
+
         screen = new MockScreen(controller);
 
         controller->setup();
@@ -40,23 +44,12 @@ protected:
         delete hardware;
         delete controller;
         delete mux;
-        delete sensor;
+        delete cellSensor;
         delete rotary;
         delete display;
         delete screen;
     }
 };
-
-TEST_F(ControllerTest, ContructionWithStuff) {
-    EXPECT_EQ(hardware, controller->getHardware());
-    EXPECT_EQ(display, controller->getDisplay());
-    EXPECT_EQ(rotary, controller->getRotary());
-    EXPECT_EQ(mux, controller->getMux());
-    EXPECT_EQ(fetSwitch, controller->getFetSwitch());
-    EXPECT_EQ(capSwitch, controller->getCapSwitch());
-    EXPECT_EQ(balanceSwitch, controller->getBalanceSwitch());
-    EXPECT_EQ(sensor, controller->getSensor());
-}
 
 TEST_F(ControllerTest, Screens) {
     EXPECT_STREQ("Splash", controller->splashScreen->getName());
@@ -71,15 +64,16 @@ TEST_F(ControllerTest, Setup) {
     EXPECT_EQ("OUTPUT", hardware->pinModes[fetSwitch->getPin()]);
     EXPECT_EQ("OUTPUT", hardware->pinModes[capSwitch->getPin()]);
     EXPECT_EQ("OUTPUT", hardware->pinModes[balanceSwitch->getPin()]);
-    EXPECT_EQ("INPUT", hardware->pinModes[5]); // voltage sensor
+    EXPECT_EQ("INPUT", hardware->pinModes[5]); // cell sensor
     EXPECT_EQ("INPUT", hardware->pinModes[6]); // rotarysensor
+    EXPECT_EQ("INPUT", hardware->pinModes[12]); // load sensor
     EXPECT_EQ(true, display->wasSetup);
 }
 
 TEST_F(ControllerTest, CellVoltages) {
     controller->setScreen(screen);
     EXPECT_EQ(9, controller->getCurrentCell());
-    sensor->volts = 3.14;
+    cellSensor->volts = 3.14;
 
     controller->tick(1111);
 
@@ -108,7 +102,7 @@ TEST_F(ControllerTest, EnteringScreen) {
 TEST_F(ControllerTest, BalancingSetup) {
     controller->setScreen(screen);
     for (int i = 0; i < 10; i++) {
-        sensor->volts = float(3.0 + 0.1 * i);
+        cellSensor->volts = float(3.0 + 0.1 * i);
         controller->tick(1111 * i);
     }
 
@@ -122,7 +116,7 @@ TEST_F(ControllerTest, BalancingSetup) {
 TEST_F(ControllerTest, BalancingButDiffInCellsTooSmallToBalance) {
     controller->setScreen(screen);
     for (int i = 0; i < 10; i++) {
-        sensor->volts = float(3.0 + 0.001 * i);
+        cellSensor->volts = float(3.0 + 0.001 * i);
         controller->tick(1111 * i);
     }
 
