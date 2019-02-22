@@ -9,14 +9,14 @@ public:
 
     ~Canvas();
 
-    uint8_t *getBuffer();
+    byte *getBuffer();
 
-    void drawPixel(uint8_t x, uint8_t y, uint8_t color) override;
+    void drawPixel(byte x, byte y, byte color) override;
 
     void clear();
 
 private:
-    uint8_t *buffer;
+    byte *buffer;
 };
 
 

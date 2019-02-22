@@ -7,11 +7,11 @@
 class Switch {
 
 public:
-    Switch(Hardware *hardware, uint8_t pin);
-    Switch(Hardware *hardware, uint8_t pin, bool pullUp);
+    Switch(Hardware *hardware, byte pin);
+    Switch(Hardware *hardware, byte pin, bool pullUp);
 
     virtual void setup();
-    uint8_t getPin() const;
+    byte getPin() const;
 
     virtual void on();
 
@@ -25,7 +25,7 @@ private:
     bool currentlyOn;
     bool isPullUp;
     Hardware *hardware;
-    uint8_t pin;
+    byte pin;
 };
 
 

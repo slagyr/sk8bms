@@ -1,7 +1,7 @@
 #include "Mux.h"
 
 
-Mux::Mux(Hardware *hardware, uint8_t enablePin, uint8_t a0, uint8_t a1, uint8_t a2, uint8_t a3) {
+Mux::Mux(Hardware *hardware, byte enablePin, byte a0, byte a1, byte a2, byte a3) {
     this->hardware = hardware;
     this->enablePin = enablePin;
     this->a0 = a0;
@@ -28,23 +28,23 @@ Hardware *Mux::getHardware() const {
 }
 
 
-uint8_t Mux::getEnablePin() const {
+byte Mux::getEnablePin() const {
     return enablePin;
 }
 
-uint8_t Mux::getA0() const {
+byte Mux::getA0() const {
     return a0;
 }
 
-uint8_t Mux::getA1() const {
+byte Mux::getA1() const {
     return a1;
 }
 
-uint8_t Mux::getA2() const {
+byte Mux::getA2() const {
     return a2;
 }
 
-uint8_t Mux::getA3() const {
+byte Mux::getA3() const {
     return a3;
 }
 
@@ -62,7 +62,7 @@ void Mux::enable() {
     enabled = true;
 }
 
-void Mux::updateSelectorPins(uint8_t input) {
+void Mux::updateSelectorPins(byte input) {
     if(input % 2 == 1)
         hardware->setPinHigh(a0);
     else
@@ -81,7 +81,7 @@ void Mux::updateSelectorPins(uint8_t input) {
         hardware->setPinLow(a3);
 }
 
-void Mux::select(uint8_t input) {
+void Mux::select(byte input) {
     disable();
     updateSelectorPins(input);
     enable();

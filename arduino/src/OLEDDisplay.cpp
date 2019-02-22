@@ -15,7 +15,7 @@
 #define WHITE 1
 
 OLEDDisplay::OLEDDisplay() {
-    I2cOledComm *comm = new I2cOledComm();
+    auto *comm = new I2cOledComm();
     oled = new Oled(comm);
     voltageBar = new Canvas(BAR_WID, BAR_ROWS * 8);
 }
@@ -28,7 +28,7 @@ void OLEDDisplay::splash() {
     oled->drawBitmap(0, 0, 128, 64, splashBMP);
 }
 
-void OLEDDisplay::showCellVoltage(uint8_t cell, float voltage) {
+void OLEDDisplay::showCellVoltage(byte cell, float voltage) {
     auto percentage = (int)((voltage - 2.5) / 1.7 * 100);
 
     Serial.print("cell:\t");
@@ -49,11 +49,11 @@ void OLEDDisplay::showHome() {
     showLabeledBars();
 }
 
-void OLEDDisplay::updateBar(uint8_t cell, int percentage) const {
+void OLEDDisplay::updateBar(byte cell, int percentage) const {
     oled->setFont(oled_font5x7);
     char buf[10];
 
-    uint8_t x = cell * BAR_WID;
+    byte x = (byte) (cell * BAR_WID);
 
     oled->clear(x, 1, BAR_WID, 6);
     itoa(percentage, buf, 10);
@@ -65,7 +65,7 @@ void OLEDDisplay::updateBar(uint8_t cell, int percentage) const {
                          voltageBar->width() - BAR_X_PAD,
                          voltageBar->height() - BAR_Y_BOT_PAD,
                          WHITE);
-    uint8_t h = (voltageBar->height() - BAR_Y_BOT_PAD) * percentage / 100.0;
+    byte h = (voltageBar->height() - BAR_Y_BOT_PAD) * percentage / 100.0;
     voltageBar->fillRect(BAR_X_PAD + 2,
                          voltageBar->height() - h,
                          voltageBar->width() - 4 - BAR_X_PAD,
@@ -80,13 +80,13 @@ void OLEDDisplay::showLabeledBars() const {
     oled->setFont(oled_font6x8);
     char buf[10];
     for (int i = 0; i < 10; i++) {
-        uint8_t x = i * BAR_WID;
+        byte x = i * BAR_WID;
         itoa(i, buf, 10);
         oled->writeString(x + 3, 7, buf);
     }
 }
 
-void OLEDDisplay::showBalancing(bool isBalancing, uint8_t to, uint8_t from) {
+void OLEDDisplay::showBalancing(bool isBalancing, byte to, byte from) {
     oled->clear(0, 0, 128, 1);
     if(isBalancing) {
         Serial.print("balancing: ");
@@ -94,7 +94,7 @@ void OLEDDisplay::showBalancing(bool isBalancing, uint8_t to, uint8_t from) {
 //        Serial.print("from: ");
 //        Serial.println(from);
 
-        uint8_t x = to * BAR_WID;
+        byte x = to * BAR_WID;
         oled->writeString(x + BAR_X_PAD, 0, "+");
 
 //        x = from * BAR_WID;

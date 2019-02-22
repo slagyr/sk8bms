@@ -2,7 +2,7 @@
 #include "Rotary.h"
 
 
-Rotary::Rotary(Hardware *hardware, uint8_t sw, uint8_t dt, uint8_t clk) {
+Rotary::Rotary(Hardware *hardware, byte sw, byte dt, byte clk) {
     this->hardware = hardware;
     this->sw = sw;
     this->dt = dt;

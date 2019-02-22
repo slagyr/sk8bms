@@ -41,11 +41,11 @@ bool Controller::didCurrentCellVoltageChanged() const {
     return currentCellVoltageChanged;
 }
 
-uint8_t Controller::getCurrentCell() {
+byte Controller::getCurrentCell() {
     return currentCell;
 }
 
-float Controller::getCellVoltage(uint8_t cell) {
+float Controller::getCellVoltage(byte cell) {
     if (cell > CELL_COUNT - 1)
         return 0.0;
     else
@@ -100,7 +100,7 @@ void Controller::configureBalancing() {
     if (currentCell == CELL_COUNT - 1) {
         lowestVoltage = 5.0;
         highestVoltage = 0.0;
-        for (uint8_t i = 0; i < CELL_COUNT; i++) {
+        for (byte i = 0; i < CELL_COUNT; i++) {
             if (cellVoltages[i] < lowestVoltage) {
                 lowestVoltage = cellVoltages[i];
                 if (lowestVoltageCell != i) {
@@ -123,7 +123,7 @@ void Controller::configureBalancing() {
     }
 }
 
-void Controller::syncFlyingCap(uint8_t cell) const {
+void Controller::syncFlyingCap(byte cell) const {
     mux->select(cell);
 
     capSwitch->on();
@@ -159,7 +159,7 @@ void Controller::openMuxFet() const {
     hardware->sleep(3);
 }
 
-uint8_t Controller::getLowestVoltageCell() const {
+byte Controller::getLowestVoltageCell() const {
     return lowestVoltageCell;
 }
 
@@ -167,7 +167,7 @@ float Controller::getLowestVoltage() const {
     return lowestVoltage;
 }
 
-uint8_t Controller::getHighestVoltageCell() const {
+byte Controller::getHighestVoltageCell() const {
     return highestVoltageCell;
 }
 
@@ -194,7 +194,7 @@ void Controller::balance() {
     balanceSwitch->off();
     closeMuxFet();
 
-//    for (uint8_t i = 0; i < 3; i++) {
+//    for (byte i = 0; i < 3; i++) {
 //        syncFlyingCap(highestVoltageCell);
 //        syncFlyingCap(lowestVoltageCell);
 //    }

@@ -34,7 +34,7 @@ TEST_F(OledTest, Setup) {
 }
 
 TEST_F(OledTest, BitmapFullScreen) {
-    uint8_t bmp[1024];
+    byte bmp[1024];
     for(int i = 0; i < 1024; i++)
         bmp[i] = 0x42;
 
@@ -53,7 +53,7 @@ TEST_F(OledTest, BitmapFullScreen) {
 }
 
 TEST_F(OledTest, BitmapQuarterScreen) {
-    uint8_t bmp[256];
+    byte bmp[256];
     for(int i = 0; i < 256; i++)
         bmp[i] = 0x42;
 

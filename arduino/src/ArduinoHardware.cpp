@@ -1,21 +1,21 @@
 #include "ArduinoHardware.h"
 #include "Arduino.h"
 
-void ArduinoHardware::pinToInput(uint8_t pin) {
+void ArduinoHardware::pinToInput(byte pin) {
     pinMode(pin, INPUT);
 }
 
 
-void ArduinoHardware::pinToOutput(uint8_t pin) {
+void ArduinoHardware::pinToOutput(byte pin) {
     pinMode(pin, OUTPUT);
 
 }
 
-int ArduinoHardware::readDigitalPin(uint8_t pin) {
+int ArduinoHardware::readDigitalPin(byte pin) {
     return digitalRead(pin);
 }
 
-int ArduinoHardware::readAnalogPin(uint8_t pin) {
+int ArduinoHardware::readAnalogPin(byte pin) {
     return analogRead(pin);
 }
 
@@ -23,15 +23,15 @@ unsigned long ArduinoHardware::getMillis() {
     return millis();
 }
 
-void ArduinoHardware::setPinHigh(uint8_t pin) {
+void ArduinoHardware::setPinHigh(byte pin) {
     digitalWrite(pin, HIGH);
 }
 
-void ArduinoHardware::setPinLow(uint8_t pin) {
+void ArduinoHardware::setPinLow(byte pin) {
     digitalWrite(pin, LOW);
 }
 
-void ArduinoHardware::playNote(uint8_t pin, unsigned int frequency, unsigned long duration) {
+void ArduinoHardware::playNote(byte pin, unsigned int frequency, unsigned long duration) {
     tone(pin, frequency, duration);
 }
 

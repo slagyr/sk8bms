@@ -11,29 +11,29 @@ public:
 
     void setup();
 
-    void drawBitmap(uint8_t x, uint8_t page, uint8_t widthPx, uint8_t heightPx, const uint8_t *bmp);
+    void drawBitmap(byte x, byte page, byte widthPx, byte heightPx, const byte *bmp);
 
     void clearScreen();
 
-    void setFont(const uint8_t font[]);
+    void setFont(const byte font[]);
 
-    uint8_t getFontWidth() const;
+    byte getFontWidth() const;
 
-    void writeString(uint8_t x, uint8_t row, const char *string);
+    void writeString(byte x, byte row, const char *string);
 
-    void clear(uint8_t x, uint8_t row, uint8_t widthPx, uint8_t heightRows);
+    void clear(byte x, byte row, byte widthPx, byte heightRows);
 
     void setInverted(bool b);
 
     bool isInverted();
 
-    void drawCanvas(uint8_t x, uint8_t row, uint8_t widthPx, uint8_t heightPx, uint8_t *bytes);
+    void drawCanvas(byte x, byte row, byte widthPx, byte heightPx, byte *bytes);
 
 private:
 
     OledComm *comm;
-    const uint8_t *font;
-    uint8_t fontWidth;
+    const byte *font;
+    byte fontWidth;
 
     void prepareFullScreenUpdate() const;
 

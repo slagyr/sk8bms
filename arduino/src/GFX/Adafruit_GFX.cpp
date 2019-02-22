@@ -38,7 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #ifndef _swap_uint8_t
-#define _swap_uint8_t(a, b) { uint8_t t = a; a = b; b = t; }
+#define _swap_uint8_t(a, b) { byte t = a; a = b; b = t; }
 #endif
 
 #define WHITE 1
@@ -51,7 +51,7 @@ POSSIBILITY OF SUCH DAMAGE.
    @param    h   Display height, in pixels
 */
 /**************************************************************************/
-Adafruit_GFX::Adafruit_GFX(uint8_t w, uint8_t h):
+Adafruit_GFX::Adafruit_GFX(byte w, byte h):
 WIDTH(w), HEIGHT(h) {}
 
 /**************************************************************************/
@@ -64,8 +64,8 @@ WIDTH(w), HEIGHT(h) {}
     @param    color 16-bit 5-6-5 Color to draw with
 */
 /**************************************************************************/
-void Adafruit_GFX::writeLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t color) {
-    uint8_t steep = abs(y1 - y0) > abs(x1 - x0);
+void Adafruit_GFX::writeLine(byte x0, byte y0, byte x1, byte y1, byte color) {
+    byte steep = abs(y1 - y0) > abs(x1 - x0);
     if (steep) {
         _swap_uint8_t(x0, y0);
         _swap_uint8_t(x1, y1);
@@ -76,12 +76,12 @@ void Adafruit_GFX::writeLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uin
         _swap_uint8_t(y0, y1);
     }
 
-    uint8_t dx, dy;
+    byte dx, dy;
     dx = x1 - x0;
     dy = abs(y1 - y0);
 
-    uint8_t err = dx / 2;
-    uint8_t ystep;
+    byte err = dx / 2;
+    byte ystep;
 
     if (y0 < y1) {
         ystep = 1;
@@ -114,7 +114,7 @@ void Adafruit_GFX::writeLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uin
    @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::writeFastVLine(uint8_t x, uint8_t y, uint8_t h, uint8_t color) {
+void Adafruit_GFX::writeFastVLine(byte x, byte y, byte h, byte color) {
     // Overwrite in subclasses if startWrite is defined!
     // Can be just writeLine(x, y, x, y+h-1, color);
     // or writeFillRect(x, y, 1, h, color);
@@ -130,7 +130,7 @@ void Adafruit_GFX::writeFastVLine(uint8_t x, uint8_t y, uint8_t h, uint8_t color
    @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::writeFastHLine(uint8_t x, uint8_t y, uint8_t w, uint8_t color) {
+void Adafruit_GFX::writeFastHLine(byte x, byte y, byte w, byte color) {
     // Overwrite in subclasses if startWrite is defined!
     // Example: writeLine(x, y, x+w-1, y, color);
     // or writeFillRect(x, y, w, 1, color);
@@ -147,7 +147,7 @@ void Adafruit_GFX::writeFastHLine(uint8_t x, uint8_t y, uint8_t w, uint8_t color
    @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::writeFillRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color) {
+void Adafruit_GFX::writeFillRect(byte x, byte y, byte w, byte h, byte color) {
     // Overwrite in subclasses if desired!
     fillRect(x,y,w,h,color);
 }
@@ -161,7 +161,7 @@ void Adafruit_GFX::writeFillRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uin
    @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::drawFastVLine(uint8_t x, uint8_t y, uint8_t h, uint8_t color) {
+void Adafruit_GFX::drawFastVLine(byte x, byte y, byte h, byte color) {
     writeLine(x, y, x, y+h-1, color);
 }
 
@@ -174,7 +174,7 @@ void Adafruit_GFX::drawFastVLine(uint8_t x, uint8_t y, uint8_t h, uint8_t color)
    @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::drawFastHLine(uint8_t x, uint8_t y, uint8_t w, uint8_t color) {
+void Adafruit_GFX::drawFastHLine(byte x, byte y, byte w, byte color) {
     writeLine(x, y, x+w-1, y, color);
 }
 
@@ -188,8 +188,8 @@ void Adafruit_GFX::drawFastHLine(uint8_t x, uint8_t y, uint8_t w, uint8_t color)
    @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::fillRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color) {
-    for (uint8_t i=x; i<x+w; i++) {
+void Adafruit_GFX::fillRect(byte x, byte y, byte w, byte h, byte color) {
+    for (byte i=x; i<x+w; i++) {
         writeFastVLine(i, y, h, color);
     }
 }
@@ -200,7 +200,7 @@ void Adafruit_GFX::fillRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t 
     @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::fillScreen(uint8_t color) {
+void Adafruit_GFX::fillScreen(byte color) {
     fillRect(0, 0, WIDTH, HEIGHT, color);
 }
 
@@ -214,7 +214,7 @@ void Adafruit_GFX::fillScreen(uint8_t color) {
     @param    color 16-bit 5-6-5 Color to draw with
 */
 /**************************************************************************/
-void Adafruit_GFX::drawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t color) {
+void Adafruit_GFX::drawLine(byte x0, byte y0, byte x1, byte y1, byte color) {
     // Update in subclasses if desired!
     if(x0 == x1){
         if(y0 > y1) _swap_uint8_t(y0, y1);
@@ -236,12 +236,12 @@ void Adafruit_GFX::drawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint
     @param    color 16-bit 5-6-5 Color to draw with
 */
 /**************************************************************************/
-void Adafruit_GFX::drawCircle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color) {
-    uint8_t f = 1 - r;
-    uint8_t ddF_x = 1;
-    uint8_t ddF_y = -2 * r;
-    uint8_t x = 0;
-    uint8_t y = r;
+void Adafruit_GFX::drawCircle(byte x0, byte y0, byte r, byte color) {
+    byte f = 1 - r;
+    byte ddF_x = 1;
+    byte ddF_y = -2 * r;
+    byte x = 0;
+    byte y = r;
 
     drawPixel(x0  , y0+r, color);
     drawPixel(x0  , y0-r, color);
@@ -279,12 +279,12 @@ void Adafruit_GFX::drawCircle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color) 
     @param    color 16-bit 5-6-5 Color to draw with
 */
 /**************************************************************************/
-void Adafruit_GFX::drawCircleHelper( uint8_t x0, uint8_t y0, uint8_t r, uint8_t cornername, uint8_t color) {
-    uint8_t f     = 1 - r;
-    uint8_t ddF_x = 1;
-    uint8_t ddF_y = -2 * r;
-    uint8_t x     = 0;
-    uint8_t y     = r;
+void Adafruit_GFX::drawCircleHelper( byte x0, byte y0, byte r, byte cornername, byte color) {
+    byte f     = 1 - r;
+    byte ddF_x = 1;
+    byte ddF_y = -2 * r;
+    byte x     = 0;
+    byte y     = r;
 
     while (x<y) {
         if (f >= 0) {
@@ -323,7 +323,7 @@ void Adafruit_GFX::drawCircleHelper( uint8_t x0, uint8_t y0, uint8_t r, uint8_t 
     @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::fillCircle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color) {
+void Adafruit_GFX::fillCircle(byte x0, byte y0, byte r, byte color) {
     writeFastVLine(x0, y0-r, 2*r+1, color);
     fillCircleHelper(x0, y0, r, 3, 0, color);
 }
@@ -340,14 +340,14 @@ void Adafruit_GFX::fillCircle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color) 
     @param    color 16-bit 5-6-5 Color to fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::fillCircleHelper(uint8_t x0, uint8_t y0, uint8_t r,
-        uint8_t cornername, uint8_t delta, uint8_t color) {
+void Adafruit_GFX::fillCircleHelper(byte x0, byte y0, byte r,
+        byte cornername, byte delta, byte color) {
 
-    uint8_t f     = 1 - r;
-    uint8_t ddF_x = 1;
-    uint8_t ddF_y = -2 * r;
-    uint8_t x     = 0;
-    uint8_t y     = r;
+    byte f     = 1 - r;
+    byte ddF_x = 1;
+    byte ddF_y = -2 * r;
+    byte x     = 0;
+    byte y     = r;
 
     while (x<y) {
         if (f >= 0) {
@@ -380,8 +380,8 @@ void Adafruit_GFX::fillCircleHelper(uint8_t x0, uint8_t y0, uint8_t r,
     @param    color 16-bit 5-6-5 Color to draw with
 */
 /**************************************************************************/
-void Adafruit_GFX::drawRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h,
-        uint8_t color) {
+void Adafruit_GFX::drawRect(byte x, byte y, byte w, byte h,
+        byte color) {
     writeFastHLine(x, y, w, color);
     writeFastHLine(x, y+h-1, w, color);
     writeFastVLine(x, y, h, color);
@@ -399,8 +399,8 @@ void Adafruit_GFX::drawRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h,
     @param    color 16-bit 5-6-5 Color to draw with
 */
 /**************************************************************************/
-void Adafruit_GFX::drawRoundRect(uint8_t x, uint8_t y, uint8_t w,
-        uint8_t h, uint8_t r, uint8_t color) {
+void Adafruit_GFX::drawRoundRect(byte x, byte y, byte w,
+        byte h, byte r, byte color) {
     // smarter version
     writeFastHLine(x+r  , y    , w-2*r, color); // Top
     writeFastHLine(x+r  , y+h-1, w-2*r, color); // Bottom
@@ -424,8 +424,8 @@ void Adafruit_GFX::drawRoundRect(uint8_t x, uint8_t y, uint8_t w,
     @param    color 16-bit 5-6-5 Color to draw/fill with
 */
 /**************************************************************************/
-void Adafruit_GFX::fillRoundRect(uint8_t x, uint8_t y, uint8_t w,
-        uint8_t h, uint8_t r, uint8_t color) {
+void Adafruit_GFX::fillRoundRect(byte x, byte y, byte w,
+        byte h, byte r, byte color) {
     // smarter version
     writeFillRect(x+r, y, w-2*r, h, color);
 
@@ -446,8 +446,8 @@ void Adafruit_GFX::fillRoundRect(uint8_t x, uint8_t y, uint8_t w,
     @param    color 16-bit 5-6-5 Color to draw with
 */
 /**************************************************************************/
-void Adafruit_GFX::drawTriangle(uint8_t x0, uint8_t y0,
-        uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t color) {
+void Adafruit_GFX::drawTriangle(byte x0, byte y0,
+        byte x1, byte y1, byte x2, byte y2, byte color) {
     drawLine(x0, y0, x1, y1, color);
     drawLine(x1, y1, x2, y2, color);
     drawLine(x2, y2, x0, y0, color);
@@ -465,10 +465,10 @@ void Adafruit_GFX::drawTriangle(uint8_t x0, uint8_t y0,
     @param    color 16-bit 5-6-5 Color to fill/draw with
 */
 /**************************************************************************/
-void Adafruit_GFX::fillTriangle(uint8_t x0, uint8_t y0,
-        uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t color) {
+void Adafruit_GFX::fillTriangle(byte x0, byte y0,
+        byte x1, byte y1, byte x2, byte y2, byte color) {
 
-    uint8_t a, b, y, last;
+    byte a, b, y, last;
 
     // Sort coordinates by Y order (y2 >= y1 >= y0)
     if (y0 > y1) {
@@ -491,7 +491,7 @@ void Adafruit_GFX::fillTriangle(uint8_t x0, uint8_t y0,
         return;
     }
 
-    uint8_t
+    byte
     dx01 = x1 - x0,
     dy01 = y1 - y0,
     dx02 = x2 - x0,
@@ -549,7 +549,7 @@ void Adafruit_GFX::fillTriangle(uint8_t x0, uint8_t y0,
     @returns    Width in pixels
 */
 /**************************************************************************/
-uint8_t Adafruit_GFX::width(void) const {
+byte Adafruit_GFX::width(void) const {
     return WIDTH;
 }
 
@@ -559,6 +559,6 @@ uint8_t Adafruit_GFX::width(void) const {
     @returns    Height in pixels
 */
 /**************************************************************************/
-uint8_t Adafruit_GFX::height(void) const {
+byte Adafruit_GFX::height(void) const {
     return HEIGHT;
 }

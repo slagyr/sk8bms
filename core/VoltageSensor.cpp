@@ -4,7 +4,7 @@
 
 #define SAMPLES 20
 
-VoltageSensor::VoltageSensor(Hardware *hardware, uint8_t pin, float referenceVoltage) {
+VoltageSensor::VoltageSensor(Hardware *hardware, byte pin, float referenceVoltage) {
     this->hardware = hardware;
     this->pin = pin;
     this->referenceVoltage = referenceVoltage;
@@ -15,7 +15,7 @@ Hardware *VoltageSensor::getHardware() {
     return hardware;
 }
 
-uint8_t VoltageSensor::getPin() {
+byte VoltageSensor::getPin() {
     return pin;
 }
 

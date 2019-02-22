@@ -6,14 +6,14 @@
 class Hardware {
 
 public:
-    virtual void pinToInput(uint8_t pin) = 0;
-    virtual void pinToOutput(uint8_t pin) = 0;
-    virtual int readDigitalPin(uint8_t pin) = 0;
-    virtual int readAnalogPin(uint8_t pin) = 0;
+    virtual void pinToInput(byte pin) = 0;
+    virtual void pinToOutput(byte pin) = 0;
+    virtual int readDigitalPin(byte pin) = 0;
+    virtual int readAnalogPin(byte pin) = 0;
     virtual unsigned long getMillis() = 0;
-    virtual void setPinHigh(uint8_t pin) = 0;
-    virtual void setPinLow(uint8_t pin) = 0;
-    virtual void playNote(uint8_t pin, unsigned int frequency, unsigned long duration) = 0;
+    virtual void setPinHigh(byte pin) = 0;
+    virtual void setPinLow(byte pin) = 0;
+    virtual void playNote(byte pin, unsigned int frequency, unsigned long duration) = 0;
 
     virtual void sleep(unsigned long duration) = 0;
 

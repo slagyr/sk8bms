@@ -3,9 +3,9 @@
 
 #include "common.h"
 
-static const uint8_t fontMetaOffset = 2;
+static const byte fontMetaOffset = 2;
 
-static const uint8_t oled_font6x8[] PROGMEM = {
+static const byte oled_font6x8[] PROGMEM = {
         0x06, 0x08,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // sp
         0x00, 0x00, 0x00, 0x2f, 0x00, 0x00, // !
@@ -106,7 +106,7 @@ static const uint8_t oled_font6x8[] PROGMEM = {
         0x00 /* This byte is required for italic type of font */
 };
 
-static const uint8_t oled_font5x7[] PROGMEM = {
+static const byte oled_font5x7[] PROGMEM = {
         0x05, 0x07,
         0x00, 0x00, 0x00, 0x00, 0x00, // char ' ' (0x20/32)
         0x00, 0x00, 0x2E, 0x00, 0x00, // char '!' (0x21/33)
@@ -206,7 +206,7 @@ static const uint8_t oled_font5x7[] PROGMEM = {
         0x36, 0x41, 0x36, 0x00, 0x00, // char '' (0x7F/127)
 };
 
-static const uint8_t oled_font8x8[] PROGMEM = {
+static const byte oled_font8x8[] PROGMEM = {
         0x08,                                     // width
         0x08,                                     // height
 

@@ -13,17 +13,17 @@ public:
 
     void splash() override;
 
-    void showCellVoltage(uint8_t cell, float voltage) override;
+    void showCellVoltage(byte cell, float voltage) override;
 
     void showHome() override;
 
-    void showBalancing(bool isBalancing, uint8_t to, uint8_t from) override;
+    void showBalancing(bool isBalancing, byte to, byte from) override;
 
 private:
 
     void showLabeledBars() const;
 
-    void updateBar(uint8_t cell, int percentage) const;
+    void updateBar(byte cell, int percentage) const;
 
     Oled *oled;
     Canvas *voltageBar;

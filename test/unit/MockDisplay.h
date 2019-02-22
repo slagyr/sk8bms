@@ -13,7 +13,7 @@ public:
         splashed = true;
     }
 
-    void showCellVoltage(uint8_t i, float voltage) override {
+    void showCellVoltage(byte i, float voltage) override {
         voltages[i] = voltage;
     }
 
@@ -21,7 +21,7 @@ public:
         showedHome = true;
     }
 
-    void showBalancing(bool isOn, uint8_t low, uint8_t high) override {
+    void showBalancing(bool isOn, byte low, byte high) override {
         balancingIndicated = isOn;
         balanceToCell = low;
         balanceFromCell = high;
@@ -32,8 +32,8 @@ public:
     float *voltages = new float[10]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     bool showedHome;
 
-    uint8_t balanceToCell;
-    uint8_t balanceFromCell;
+    byte balanceToCell;
+    byte balanceFromCell;
     bool balancingIndicated;
 };
 

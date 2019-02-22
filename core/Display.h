@@ -10,11 +10,11 @@ public:
 
     virtual void splash() = 0;
 
-    virtual void showCellVoltage(uint8_t i, float voltage) = 0;
+    virtual void showCellVoltage(byte i, float voltage) = 0;
 
     virtual void showHome() = 0;
 
-    virtual void showBalancing(bool isOn, uint8_t low, uint8_t high) = 0;
+    virtual void showBalancing(bool isOn, byte low, byte high) = 0;
 
 };
 

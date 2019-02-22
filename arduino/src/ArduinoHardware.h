@@ -7,19 +7,19 @@
 class ArduinoHardware : public Hardware {
 
 public:
-    void pinToInput(uint8_t pin) override;
+    void pinToInput(byte pin) override;
 
-    void pinToOutput(uint8_t pin) override;
+    void pinToOutput(byte pin) override;
 
-    int readDigitalPin(uint8_t pin) override;
+    int readDigitalPin(byte pin) override;
 
-    int readAnalogPin(uint8_t pin) override;
+    int readAnalogPin(byte pin) override;
 
     unsigned long getMillis() override;
 
-    void setPinHigh(uint8_t pin) override;
+    void setPinHigh(byte pin) override;
 
-    void setPinLow(uint8_t pin) override;
+    void setPinLow(byte pin) override;
 
     void print(const char *value) override;
 
@@ -27,7 +27,7 @@ public:
 
     void print(float value) override;
 
-    void playNote(uint8_t pin, unsigned int frequency, unsigned long duration) override;
+    void playNote(byte pin, unsigned int frequency, unsigned long duration) override;
 
     void sleep(unsigned long duration) override;
 };

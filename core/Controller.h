@@ -19,9 +19,9 @@ public:
 
     void setup();
 
-    uint8_t getCurrentCell();
+    byte getCurrentCell();
 
-    float getCellVoltage(uint8_t cell);
+    float getCellVoltage(byte cell);
 
     void tick(unsigned long millis);
 
@@ -29,15 +29,15 @@ public:
 
     Screen* getScreen();
 
-    uint8_t getCellCount() { return CELL_COUNT; }
+    byte getCellCount() { return CELL_COUNT; }
 
     bool didCurrentCellVoltageChanged() const;
 
-    uint8_t getLowestVoltageCell() const;
+    byte getLowestVoltageCell() const;
 
     float getLowestVoltage() const;
 
-    uint8_t getHighestVoltageCell() const;
+    byte getHighestVoltageCell() const;
 
     float getHighestVoltage() const;
 
@@ -63,12 +63,12 @@ protected:
 
     Screen* screen;
 
-    uint8_t currentCell;
+    byte currentCell;
     float *cellVoltages;
     bool currentCellVoltageChanged;
-    uint8_t lowestVoltageCell = 0;
+    byte lowestVoltageCell = 0;
     float lowestVoltage = 5.0;
-    uint8_t highestVoltageCell = 0;
+    byte highestVoltageCell = 0;
     float highestVoltage = 0.0;
     bool balancingChanged;
     bool balancing;
@@ -85,7 +85,7 @@ private:
 
     float readFlyingCapVoltage() const;
 
-    void syncFlyingCap(uint8_t cell) const;
+    void syncFlyingCap(byte cell) const;
 
     void configureBalancing();
 

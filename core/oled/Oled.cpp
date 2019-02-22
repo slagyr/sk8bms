@@ -40,7 +40,7 @@ void Oled::setup() {
     setFont(oled_font6x8);
 }
 
-void Oled::drawBitmap(uint8_t x, uint8_t page, uint8_t widthPx, uint8_t heightPx, const uint8_t *bmp) {
+void Oled::drawBitmap(byte x, byte page, byte widthPx, byte heightPx, const byte *bmp) {
     prepareScreenUpdate(x, x + widthPx - 1, page, page + heightPx / 8 - 1);
     comm->beginTransmission();
     int bytesInScreen = widthPx * heightPx / 8;
@@ -67,30 +67,30 @@ void Oled::clearScreen() {
     clear(0, 0, 128, 8);
 }
 
-void Oled::setFont(const uint8_t *font) {
+void Oled::setFont(const byte *font) {
     this->font = font;
     fontWidth = comm->pmgByte(font, 0);
 }
 
-uint8_t Oled::getFontWidth() const {
+byte Oled::getFontWidth() const {
     return fontWidth;
 }
 
-void Oled::writeString(uint8_t x, uint8_t row, const char *msg) {
-    uint8_t len = strlen(msg);
+void Oled::writeString(byte x, byte row, const char *msg) {
+    byte len = strlen(msg);
     prepareScreenUpdate(x, x + len * fontWidth - 1, row, row);
 
     comm->beginTransmission();
-    for(uint8_t i = 0; i < len; i++) {
+    for(byte i = 0; i < len; i++) {
         char c = msg[i];
-        for( uint8_t j = 0; j < fontWidth; j++) {
+        for( byte j = 0; j < fontWidth; j++) {
             comm->includeByte(comm->pmgByte(font, (c - 32) * fontWidth + fontMetaOffset + j));
         }
     }
     comm->endTransmission();
 }
 
-void Oled::clear(uint8_t x, uint8_t row, uint8_t widthPx, uint8_t heightRows) {
+void Oled::clear(byte x, byte row, byte widthPx, byte heightRows) {
     int size = widthPx * heightRows;
     prepareScreenUpdate(x, x + widthPx - 1, row, row + heightRows - 1);
 
@@ -108,7 +108,7 @@ bool Oled::isInverted() {
     return comm->isInverted();
 }
 
-void Oled::drawCanvas(uint8_t x, uint8_t row, uint8_t widthPx, uint8_t heightPx, uint8_t *bytes) {
+void Oled::drawCanvas(byte x, byte row, byte widthPx, byte heightPx, byte *bytes) {
     prepareScreenUpdate(x, x + widthPx - 1, row, row + heightPx / 8 - 1);
     comm->beginTransmission();
     int bytesInScreen = widthPx * heightPx / 8;

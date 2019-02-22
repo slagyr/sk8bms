@@ -11,11 +11,11 @@ using namespace std;
 class PlayedNote {
 public:
 
-    uint8_t pin;
+    byte pin;
     unsigned int frequency;
     unsigned long duration;
 
-    PlayedNote(uint8_t pin, unsigned int frequency, unsigned long duration) {
+    PlayedNote(byte pin, unsigned int frequency, unsigned long duration) {
         this->pin = pin;
         this->frequency = frequency;
         this->duration = duration;
@@ -34,11 +34,11 @@ public:
     vector<PlayedNote *> notesPlayed;
     vector<unsigned long> delays;
 
-    void pinToInput(uint8_t pin) override { pinModes[pin] = "INPUT"; }
+    void pinToInput(byte pin) override { pinModes[pin] = "INPUT"; }
 
-    void pinToOutput(uint8_t pin) override { pinModes[pin] = "OUTPUT"; }
+    void pinToOutput(byte pin) override { pinModes[pin] = "OUTPUT"; }
 
-    int readDigitalPin(uint8_t pin) override {
+    int readDigitalPin(byte pin) override {
         if (digitalReads[pin].empty())
             return -1;
         else {
@@ -48,7 +48,7 @@ public:
         }
     }
 
-    int readAnalogPin(uint8_t pin) override {
+    int readAnalogPin(byte pin) override {
         if (analogReads[pin].empty())
             return -1;
         else {
@@ -74,11 +74,11 @@ public:
 
     void print(float value) override { cout << value; }
 
-    void setPinHigh(uint8_t pin) override { digitalWrites[pin] = "HIGH"; }
+    void setPinHigh(byte pin) override { digitalWrites[pin] = "HIGH"; }
 
-    void setPinLow(uint8_t pin) override { digitalWrites[pin] = "LOW"; }
+    void setPinLow(byte pin) override { digitalWrites[pin] = "LOW"; }
 
-    void playNote(uint8_t pin, unsigned int frequency, unsigned long duration) override {
+    void playNote(byte pin, unsigned int frequency, unsigned long duration) override {
         notesPlayed.push_back(new PlayedNote(pin, frequency, duration));
     }
 

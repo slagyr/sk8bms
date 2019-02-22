@@ -9,19 +9,19 @@ using namespace std;
 class MockOledComm : public OledComm {
 public:
     MockOledComm() {
-        commands = new LinkedList<uint8_t>();
-        transmission = new LinkedList<uint8_t>();
+        commands = new LinkedList<byte>();
+        transmission = new LinkedList<byte>();
     }
 
     void setup() override {
         wasSetup = true;
     }
 
-    void sendCommand(uint8_t cmd) override {
+    void sendCommand(byte cmd) override {
         commands->add(cmd);
     }
 
-    void sendData(const uint8_t *data, int size) override {
+    void sendData(const byte *data, int size) override {
         transmission->clear();
         for(int i = 0; i < size; i++)
             includeByte(data[i]);
@@ -32,7 +32,7 @@ public:
         inTransmission = true;
     }
 
-    void includeByte(uint8_t b) override {
+    void includeByte(byte b) override {
         transmission->add(applyInversion(b));
     }
 
@@ -40,13 +40,13 @@ public:
         inTransmission = false;
     }
 
-    uint8_t pmgByte(const uint8_t *bmp, int i) override {
+    byte pmgByte(const byte *bmp, int i) override {
         return bmp[i];
     }
 
     bool wasSetup;
-    LinkedList<uint8_t> *commands;
-    LinkedList<uint8_t> *transmission;
+    LinkedList<byte> *commands;
+    LinkedList<byte> *transmission;
     bool inTransmission;
 };
 

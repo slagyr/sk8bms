@@ -9,61 +9,61 @@ class Adafruit_GFX {
 
 public:
 
-    Adafruit_GFX(uint8_t w, uint8_t h); // Constructor
+    Adafruit_GFX(byte w, byte h); // Constructor
 
     // This MUST be defined by the subclass:
-    virtual void drawPixel(uint8_t x, uint8_t y, uint8_t color) = 0;    ///< Virtual drawPixel() function to draw to the screen/framebuffer/etc, must be overridden in subclass. @param x X coordinate.  @param y Y coordinate. @param color 16-bit pixel color.
+    virtual void drawPixel(byte x, byte y, byte color) = 0;    ///< Virtual drawPixel() function to draw to the screen/framebuffer/etc, must be overridden in subclass. @param x X coordinate.  @param y Y coordinate. @param color 16-bit pixel color.
 
-    virtual void writeFillRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color);
+    virtual void writeFillRect(byte x, byte y, byte w, byte h, byte color);
 
-    virtual void writeFastVLine(uint8_t x, uint8_t y, uint8_t h, uint8_t color);
+    virtual void writeFastVLine(byte x, byte y, byte h, byte color);
 
-    virtual void writeFastHLine(uint8_t x, uint8_t y, uint8_t w, uint8_t color);
+    virtual void writeFastHLine(byte x, byte y, byte w, byte color);
 
-    virtual void writeLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t color);
+    virtual void writeLine(byte x0, byte y0, byte x1, byte y1, byte color);
 
     // BASIC DRAW API
     // These MAY be overridden by the subclass to provide device-specific
     // optimized code.  Otherwise 'generic' versions are used.
 
     // It's good to implement those, even if using transaction API
-    virtual void drawFastVLine(uint8_t x, uint8_t y, uint8_t h, uint8_t color);
+    virtual void drawFastVLine(byte x, byte y, byte h, byte color);
 
-    virtual void drawFastHLine(uint8_t x, uint8_t y, uint8_t w, uint8_t color);
+    virtual void drawFastHLine(byte x, byte y, byte w, byte color);
 
-    virtual void fillRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color);
+    virtual void fillRect(byte x, byte y, byte w, byte h, byte color);
 
-    virtual void fillScreen(uint8_t color);
+    virtual void fillScreen(byte color);
 
     // Optional and probably not necessary to change
-    virtual void drawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t color);
+    virtual void drawLine(byte x0, byte y0, byte x1, byte y1, byte color);
 
-    virtual void drawRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color);
+    virtual void drawRect(byte x, byte y, byte w, byte h, byte color);
 
     // These exist only with Adafruit_GFX (no subclass overrides)
-    void drawCircle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color);
+    void drawCircle(byte x0, byte y0, byte r, byte color);
 
-    void drawCircleHelper(uint8_t x0, uint8_t y0, uint8_t r, uint8_t cornername, uint8_t color);
+    void drawCircleHelper(byte x0, byte y0, byte r, byte cornername, byte color);
 
-    void fillCircle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color);
+    void fillCircle(byte x0, byte y0, byte r, byte color);
 
-    void fillCircleHelper(uint8_t x0, uint8_t y0, uint8_t r, uint8_t cornername, uint8_t delta, uint8_t color);
+    void fillCircleHelper(byte x0, byte y0, byte r, byte cornername, byte delta, byte color);
 
-    void drawTriangle(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t color);
+    void drawTriangle(byte x0, byte y0, byte x1, byte y1, byte x2, byte y2, byte color);
 
-    void fillTriangle(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t color);
+    void fillTriangle(byte x0, byte y0, byte x1, byte y1, byte x2, byte y2, byte color);
 
-    void drawRoundRect(uint8_t x0, uint8_t y0, uint8_t w, uint8_t h, uint8_t radius, uint8_t color);
+    void drawRoundRect(byte x0, byte y0, byte w, byte h, byte radius, byte color);
 
-    void fillRoundRect(uint8_t x0, uint8_t y0, uint8_t w, uint8_t h, uint8_t radius, uint8_t color);
+    void fillRoundRect(byte x0, byte y0, byte w, byte h, byte radius, byte color);
 
-    uint8_t height() const;
+    byte height() const;
 
-    uint8_t width() const;
+    byte width() const;
 
 
 protected:
-    const uint8_t WIDTH, HEIGHT;
+    const byte WIDTH, HEIGHT;
 };
 
 

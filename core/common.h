@@ -3,7 +3,7 @@
 
 #include "stdlib.h"
 
-typedef unsigned char uint8_t;
+typedef unsigned char byte;
 
 #ifndef PROGMEM
 //#warning "PROGMEM undefined"
@@ -15,9 +15,9 @@ typedef unsigned char uint8_t;
 
 inline int availableMemory() {
     int size = 2048; // Use 2048 with ATmega328
-    uint8_t *buf;
+    byte *buf;
 
-    while ((buf = (uint8_t *) malloc(--size)) == NULL)
+    while ((buf = (byte *) malloc(--size)) == NULL)
         ;
 
     free(buf);

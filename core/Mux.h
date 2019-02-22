@@ -7,21 +7,21 @@
 class Mux {
 
 public:
-    Mux(Hardware* hardware, uint8_t enablePin, uint8_t a0, uint8_t a1, uint8_t a2, uint8_t a3);
+    Mux(Hardware* hardware, byte enablePin, byte a0, byte a1, byte a2, byte a3);
 
     void setup();
 
     Hardware *getHardware() const;
 
-    uint8_t getEnablePin() const;
+    byte getEnablePin() const;
 
-    uint8_t getA0() const;
+    byte getA0() const;
 
-    uint8_t getA1() const;
+    byte getA1() const;
 
-    uint8_t getA2() const;
+    byte getA2() const;
 
-    uint8_t getA3() const;
+    byte getA3() const;
 
     bool isEnabled() const;
 
@@ -29,17 +29,17 @@ public:
 
     void disable();
 
-    void select(uint8_t input);
+    void select(byte input);
 
-    void updateSelectorPins(uint8_t i);
+    void updateSelectorPins(byte i);
 
 private:
     Hardware* hardware;
-    uint8_t enablePin;
-    uint8_t a0;
-    uint8_t a1;
-    uint8_t a2;
-    uint8_t a3;
+    byte enablePin;
+    byte a0;
+    byte a1;
+    byte a2;
+    byte a3;
     bool enabled = false;
 };
 

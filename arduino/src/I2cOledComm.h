@@ -11,20 +11,20 @@ public:
 
     void setup() override;
 
-    void sendCommand(uint8_t cmd) override;
+    void sendCommand(byte cmd) override;
 
-    void sendData(const uint8_t *data, int size) override;
+    void sendData(const byte *data, int size) override;
 
     void beginTransmission() override;
 
-    void includeByte(uint8_t b) override;
+    void includeByte(byte b) override;
 
     void endTransmission() override;
 
-    uint8_t pmgByte(const uint8_t *bmp, int i) override;
+    byte pmgByte(const byte *bmp, int i) override;
 
 private:
-    uint8_t packetSize;
+    byte packetSize;
 };
 
 

@@ -18,7 +18,7 @@ void HomeScreen::enter() {
 void HomeScreen::update() {
     Display *display = controller->display;
     if (controller->didCurrentCellVoltageChanged()) {
-        uint8_t currentCell = controller->getCurrentCell();
+        byte currentCell = controller->getCurrentCell();
         float voltage = controller->getCellVoltage(currentCell);
         display->showCellVoltage(currentCell, voltage);
     }

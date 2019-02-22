@@ -2,7 +2,7 @@
 
 Canvas::Canvas(int16_t w, int16_t h) : Adafruit_GFX(w, h) {
     uint16_t bytes = ((w + 7) / 8) * h;
-    if ((buffer = (uint8_t *) malloc(bytes))) {
+    if ((buffer = (byte *) malloc(bytes))) {
         memset(buffer, 0, bytes);
     }
 }
@@ -11,11 +11,11 @@ Canvas::~Canvas(void) {
     if (buffer) free(buffer);
 }
 
-uint8_t *Canvas::getBuffer(void) {
+byte *Canvas::getBuffer(void) {
     return buffer;
 }
 
-void Canvas::drawPixel(uint8_t x, uint8_t y, uint8_t color) {
+void Canvas::drawPixel(byte x, byte y, byte color) {
     if ((x < 0) || (x >= width()) || (y < 0) || (y >= height()))
         return;
 

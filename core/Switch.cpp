@@ -1,8 +1,8 @@
 #include "Switch.h"
 
-Switch::Switch(Hardware *hardware, uint8_t pin) : Switch(hardware, pin, true) {}
+Switch::Switch(Hardware *hardware, byte pin) : Switch(hardware, pin, true) {}
 
-Switch::Switch(Hardware *hardware, uint8_t pin, bool pullUp) {
+Switch::Switch(Hardware *hardware, byte pin, bool pullUp) {
     this->hardware = hardware;
     this->pin = pin;
     this->isPullUp = pullUp;
@@ -33,7 +33,7 @@ bool Switch::isOn() {
     return currentlyOn;
 }
 
-uint8_t Switch::getPin() const {
+byte Switch::getPin() const {
     return pin;
 }
 
